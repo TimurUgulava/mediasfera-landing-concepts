@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Медиасфера — концепции посадочной (v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --red:#E30613; --ink:#15161a; --bg:#0e0f13; --card:#1a1c22; --mut:#9aa0ad; --line:#2a2d36 }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:#fff; -webkit-font-smoothing:antialiased }
+  .wrap{ max-width:1240px; margin:0 auto; padding:0 32px }
+  header{ padding:54px 0 34px; border-bottom:1px solid var(--line) }
+  .brand{ font-weight:800; font-size:20px; letter-spacing:-.5px } .brand b{ color:var(--red) }
+  h1{ font-size:clamp(30px,4vw,46px); font-weight:900; letter-spacing:-1.2px; margin-top:24px; line-height:1.06 }
+  .sub{ color:var(--mut); font-size:17px; margin-top:14px; max-width:720px; line-height:1.55 }
+  .meta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:20px }
+  .badge{ background:var(--card); border:1px solid var(--line); color:#c7ccd6; font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:30px }
+  .badge b{ color:#fff }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:26px; padding:40px 0 70px }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden; transition:.2s; display:flex; flex-direction:column }
+  .card:hover{ transform:translateY(-4px); border-color:var(--red); box-shadow:0 26px 60px -30px rgba(227,6,19,.5) }
+  .prev{ position:relative; height:300px; overflow:hidden; border-bottom:1px solid var(--line); background:#fff }
+  .prev iframe{ width:1280px; height:820px; border:0; transform:scale(.37); transform-origin:top left; pointer-events:none }
+  .prev .num{ position:absolute; top:14px; left:14px; z-index:2; background:var(--red); color:#fff; font-weight:800; font-size:14px; width:30px; height:30px; border-radius:8px; display:grid; place-items:center }
+  .card-b{ padding:22px 24px 24px; flex:1; display:flex; flex-direction:column }
+  .card h3{ font-size:21px; font-weight:800; letter-spacing:-.3px }
+  .card .h1q{ font-size:13.5px; color:#fff; margin-top:8px; font-weight:600; border-left:3px solid var(--red); padding-left:10px; line-height:1.4 }
+  .card .idea{ color:var(--mut); font-size:14px; line-height:1.5; margin-top:12px; flex:1 }
+  .card .who{ font-size:12.5px; color:#8b91a0; margin-top:14px } .card .who b{ color:#c7ccd6 }
+  .open{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; background:#fff; color:var(--ink); text-decoration:none; font-weight:700; font-size:15px; padding:12px 20px; border-radius:10px; align-self:flex-start; transition:.15s }
+  .open:hover{ background:var(--red); color:#fff }
+  footer{ border-top:1px solid var(--line); padding:24px 0 60px; color:var(--mut); font-size:13.5px; line-height:1.6 }
+  @media(max-width:880px){ .grid{ grid-template-columns:1fr } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">медиа<b>сфера</b> · концепции посадочной · v2</div>
+    <h1>Пять концепций. У каждой — своя идея,<br>свой заголовок и свой контент</h1>
+    <p class="sub">Теперь не один текст в разных обёртках, а пять разных подходов: идея диктует и композицию, и контент первого экрана. Цель — выбрать вектор, дальше докрутим выбранное целиком. Превью живые — кликни «Открыть концепт».</p>
+    <div class="meta">
+      <span class="badge">Фирменный <b>красный</b> Медиасферы</span>
+      <span class="badge">Принцип: <b>идея → контент</b></span>
+      <span class="badge">Без цен · рейтинг не на hero · один CTA</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="prev"><div class="num">1</div><iframe src="c1-redakciya.html" scrolling="no"></iframe></div>
+      <div class="card-b">
+        <h3>Редакция-издание</h3>
+        <div class="h1q">«+45% продаж. Только это не реклама. Это статья»</div>
+        <p class="idea">Первый экран как первая полоса газеты «медиа·ПРОДАНО»: масthead, рубрика, передовица, буквица, врезка «из номера». Идея: вы нанимаете не копирайтера, а редакцию с именем.</p>
+        <div class="who"><b>Откуда:</b> референсы про бумагу/газеты/книги</div>
+        <a class="open" href="c1-redakciya.html">Открыть концепт →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="prev"><div class="num">2</div><iframe src="c2-demonstraciya.html" scrolling="no"></iframe></div>
+      <div class="card-b">
+        <h3>Эта страница — наша работа</h3>
+        <div class="h1q">«Я перепробовал шесть способов не засыпать к трём часам дня…»</div>
+        <p class="idea">H1 — это интригующий заголовок реальной статьи, не слоган. На полях подписана механика «хук → прогрев → конверсия», затем мета-разворот: «это не слоган, это начало статьи, которую мы написали». Идея: не верьте словам — читайте пример.</p>
+        <div class="who"><b>Кому:</b> кто покупает экспертизу и хочет увидеть продукт</div>
+        <a class="open" href="c2-demonstraciya.html">Открыть концепт →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="prev"><div class="num">3</div><iframe src="c3-koty.html" scrolling="no"></iframe></div>
+      <div class="card-b">
+        <h3>Коты, которые растят CTR</h3>
+        <div class="h1q">«Пишем так, что даже ваш кот захочет купить»</div>
+        <p class="idea">Летнее настроение: зелёный и жёлтый, светлый фон, коты-маскоты ведут диалог с цифрой-доказательством в реплике, лёгкая анимация. Идея: бренд с характером, контент с душой.</p>
+        <div class="who"><b>Откуда:</b> вектор Ксюши + летний баннер</div>
+        <a class="open" href="c3-koty.html">Открыть концепт →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="prev"><div class="num">4</div><iframe src="c4-dashboard.html" scrolling="no"></iframe></div>
+      <div class="card-b">
+        <h3>Посчитано до рубля</h3>
+        <div class="h1q">«+45% к продажам. И это написано статьями»</div>
+        <p class="idea">Тёмный «командный центр»: цифра-герой, KPI-плитки и живой калькулятор «сколько может продавать ваш контент». Идея: контент — перформанс-канал с прозрачными цифрами.</p>
+        <div class="who"><b>Кому:</b> рациональному скептику, который верит цифрам</div>
+        <a class="open" href="c4-dashboard.html">Открыть концепт →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="prev"><div class="num">5</div><iframe src="c5-memes.html" scrolling="no"></iframe></div>
+      <div class="card-b">
+        <h3>Мемы 🔥</h3>
+        <div class="h1q">«POV: ваши статьи наконец-то ПРОДАЮТ»</div>
+        <p class="idea">Супер-драйвовый, на языке интернета: мем-лента (Drake, галактический мозг, «это нормально»), жирный Impact-шрифт, бренд-красный + кислотный жёлтый, коты как мем-персонажи. Лид-магнит «закинь текст → кринж или база». Идея: контент, который понимает интернет.</p>
+        <div class="who"><b>Кому:</b> молодой/digital-аудитории; максимально выделяет на фоне «серьёзных» конкурентов</div>
+        <a class="open" href="c5-memes.html">Открыть концепт →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Готовы полные страницы — все 7 экранов (hero → инсайт → кейсы → редакция+Яндекс → каналы → FAQ → форма) в логике каждой концепции. Кликни «Открыть концепт» и проскролль до конца. Превью выше показывают первый экран. Пер-концептное ТЗ — в файле 04-design-brief.md.
+  </footer>
+</div>
+</body>
+</html>

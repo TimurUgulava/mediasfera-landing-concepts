@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Медиасфера — POV: ваши статьи наконец-то продают</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --red:#E30613; --red-d:#bd0005; --ink:#181818; --yellow:#FFE600; --bg:#fafafa }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; overflow-x:hidden }
+  .disp{ font-family:'Russo One',sans-serif }
+  a{ color:inherit }
+
+  header{ display:flex; align-items:center; justify-content:space-between; padding:18px 36px; border-bottom:3px solid var(--ink); background:#fff; position:sticky; top:0; z-index:50 }
+  .logo{ font-weight:900; font-size:23px; letter-spacing:-.5px } .logo span{ color:var(--red) }
+  nav{ display:flex; align-items:center; gap:26px } nav a{ color:#444; text-decoration:none; font-size:14px; font-weight:700 } nav a:hover{ color:var(--red) }
+  .btn{ font-family:inherit; cursor:pointer; border:3px solid var(--ink); border-radius:12px; font-weight:800; transition:.12s; background:var(--red); color:#fff; padding:11px 20px; font-size:15px; box-shadow:4px 4px 0 var(--ink) }
+  .btn:hover{ transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--ink) }
+  .btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink) }
+  .btn-ghost{ background:#fff; color:var(--ink); box-shadow:4px 4px 0 var(--red) }
+  .btn-ghost:hover{ box-shadow:5px 5px 0 var(--red) }
+
+  /* мобильное меню */
+  .burger{ display:none; flex-direction:column; gap:5px; background:none; border:3px solid var(--ink); border-radius:10px; padding:9px 10px; cursor:pointer }
+  .burger span{ display:block; width:22px; height:3px; background:var(--ink); border-radius:2px }
+  .mob{ display:none; position:fixed; inset:0; z-index:60; background:rgba(24,24,24,.55); backdrop-filter:blur(2px) }
+  .mob.open{ display:block }
+  .mob-panel{ position:absolute; top:0; right:0; width:80%; max-width:320px; height:100%; background:#fff; border-left:4px solid var(--ink); padding:26px 22px; display:flex; flex-direction:column; gap:6px }
+  .mob-panel a{ text-decoration:none; font-weight:800; font-size:18px; padding:13px 6px; border-bottom:2px solid #eee }
+  .mob-close{ align-self:flex-end; background:none; border:none; font-size:30px; cursor:pointer; line-height:1; margin-bottom:6px }
+
+  main{ display:grid; grid-template-columns:1fr 1.05fr; gap:34px; max-width:1240px; margin:0 auto; padding:34px 36px 24px; align-items:start }
+
+  .pov{ display:inline-block; background:var(--ink); color:#fff; font-weight:800; font-size:13px; padding:7px 13px; border-radius:8px; letter-spacing:.3px; margin-bottom:18px; transform:rotate(-1.5deg) }
+  h1{ font-family:'Russo One',sans-serif; font-size:clamp(38px,5vw,64px); line-height:1.02; text-transform:uppercase; letter-spacing:-.5px }
+  h1 .hl{ background:var(--yellow); padding:0 6px; box-decoration-break:clone; -webkit-box-decoration-break:clone; box-shadow:3px 3px 0 var(--ink) }
+  .sub{ font-size:18px; font-weight:600; color:#333; margin-top:20px; line-height:1.5; max-width:94% }
+  .sub b{ background:var(--yellow); padding:0 3px }
+
+  .cta-row{ display:flex; align-items:center; gap:18px; margin-top:24px; flex-wrap:wrap }
+  .btn-lg{ padding:15px 28px; font-size:17px }
+
+  .magnet{ margin-top:24px; border:3px solid var(--ink); border-radius:16px; background:#fff; padding:18px; box-shadow:6px 6px 0 var(--red) }
+  .magnet .mt{ font-family:'Russo One',sans-serif; font-size:18px; text-transform:uppercase }
+  .magnet p{ font-size:13px; color:#555; margin:4px 0 12px }
+  .magnet textarea{ width:100%; height:74px; border:2px solid var(--ink); border-radius:10px; padding:10px; font-family:inherit; font-size:13px; resize:none; outline:none } .magnet textarea:focus{ border-color:var(--red) }
+  .verdict{ margin-top:12px; font-size:14px; display:none; line-height:1.5 } .verdict.show{ display:block }
+  .stamp{ display:inline-block; font-family:'Russo One',sans-serif; font-size:20px; text-transform:uppercase; border:3px solid var(--red); color:var(--red); padding:3px 12px; border-radius:8px; transform:rotate(-4deg) }
+
+  .pills{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px }
+  .pill{ background:#fff; border:2px solid var(--ink); border-radius:30px; font-size:12px; font-weight:700; padding:6px 12px }
+
+  /* МЕМ-СТЕНА */
+  .wall{ columns:2; column-gap:16px }
+  .meme{ break-inside:avoid; margin-bottom:16px; border:3px solid var(--ink); border-radius:14px; overflow:hidden; background:#fff; box-shadow:5px 5px 0 rgba(0,0,0,.18); transition:.15s; opacity:0; transform:translateY(14px) scale(.97) }
+  .meme.in{ opacity:1; transform:none }
+  .meme:nth-child(1).in{ transform:rotate(-1.4deg) }
+  .meme:nth-child(2).in{ transform:rotate(1.2deg) }
+  .meme:nth-child(3).in{ transform:rotate(1deg) }
+  .meme:nth-child(4).in{ transform:rotate(-1deg) }
+  .meme:hover{ transform:rotate(0) scale(1.03) !important; box-shadow:8px 8px 0 var(--red); z-index:3; position:relative }
+  .meme img{ display:block; width:100%; height:auto }
+  .meme .cap{ display:flex; align-items:center; gap:8px; padding:8px 12px; border-top:3px solid var(--ink); font-size:12.5px; font-weight:700 }
+  .meme .cap .like{ color:var(--red) }
+
+  /* бегущая лента */
+  .ticker{ background:var(--ink); color:#fff; overflow:hidden; white-space:nowrap; border-top:3px solid var(--red); border-bottom:3px solid var(--red) }
+  .tt{ display:inline-block; padding:11px 0; animation:scroll 22s linear infinite; font-weight:800; font-size:15px } .tt:hover{ animation-play-state:paused }
+  .tt span{ margin:0 22px } .tt b{ color:var(--yellow) }
+  @keyframes scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .em{ display:inline-block; animation:bob 1.8s ease-in-out infinite } @keyframes bob{ 50%{transform:translateY(-4px)} }
+
+  /* ===== ОБЩИЙ РИТМ СЕКЦИЙ ===== */
+  .sec{ max-width:1240px; margin:0 auto; padding:80px 36px }
+  .sec-wide{ max-width:none }
+  .eyebrow{ display:inline-block; background:var(--ink); color:#fff; font-weight:800; font-size:12px; letter-spacing:.5px; text-transform:uppercase; padding:6px 12px; border-radius:8px; transform:rotate(-1.2deg); margin-bottom:18px }
+  .h2{ font-family:'Russo One',sans-serif; font-size:clamp(28px,3.6vw,46px); line-height:1.04; text-transform:uppercase; letter-spacing:-.5px }
+  .h2 .hl{ background:var(--yellow); padding:0 6px; box-shadow:3px 3px 0 var(--ink); box-decoration-break:clone; -webkit-box-decoration-break:clone }
+  .h2 .red{ color:var(--red) }
+  .lead{ font-size:18px; font-weight:600; color:#333; margin-top:16px; line-height:1.55; max-width:760px }
+  .lead b{ background:var(--yellow); padding:0 3px }
+
+  /* reveal на скролле */
+  .reveal{ opacity:0; transform:translateY(26px); transition:.55s cubic-bezier(.2,.7,.2,1) }
+  .reveal.in{ opacity:1; transform:none }
+
+  /* ===== ЭКРАН 2 — ИНСАЙТ + СХЕМА ===== */
+  .insight{ background:var(--ink); color:#fff }
+  .insight .h2{ color:#fff; max-width:900px }
+  .insight .h2 .hl{ color:var(--ink) }
+  .insight .lead{ color:#d8d8d8 }
+  .insight-note{ display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap }
+  .insight-note .tag{ font-family:'Russo One',sans-serif; background:var(--red); color:#fff; padding:6px 14px; border-radius:8px; border:3px solid #fff; transform:rotate(-2deg); font-size:13px; text-transform:uppercase }
+
+  .flow{ margin-top:48px; display:grid; grid-template-columns:repeat(6,1fr); gap:14px }
+  .step{ position:relative; background:#fff; color:var(--ink); border:3px solid #fff; border-radius:16px; padding:18px 14px 16px; box-shadow:6px 6px 0 var(--red) }
+  .step .n{ font-family:'Russo One',sans-serif; font-size:30px; color:var(--red); line-height:1 }
+  .step .st{ font-family:'Russo One',sans-serif; font-size:15px; text-transform:uppercase; margin:8px 0 6px; line-height:1.1 }
+  .step .sd{ font-size:12.5px; color:#444; line-height:1.4; font-weight:500 }
+  .step .arr{ position:absolute; right:-13px; top:50%; transform:translateY(-50%); font-family:'Russo One',sans-serif; color:var(--yellow); font-size:24px; z-index:2; text-shadow:1px 1px 0 var(--ink) }
+  .step:last-child .arr{ display:none }
+  .step.hot{ background:var(--yellow); box-shadow:6px 6px 0 var(--ink) }
+
+  /* ===== ЭКРАН 3 — КЕЙСЫ ===== */
+  .cases{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:48px }
+  .case{ background:#fff; border:3px solid var(--ink); border-radius:18px; overflow:hidden; box-shadow:7px 7px 0 var(--ink); transition:.15s; display:flex; flex-direction:column }
+  .case:hover{ transform:translate(-2px,-2px); box-shadow:10px 10px 0 var(--red) }
+  .case-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 18px; border-bottom:3px solid var(--ink); background:var(--ink); color:#fff; flex-wrap:wrap }
+  .case-name{ font-family:'Russo One',sans-serif; font-size:18px; text-transform:uppercase }
+  .case-tags{ display:flex; gap:6px; flex-wrap:wrap }
+  .ctag{ font-size:11px; font-weight:800; background:#333; color:#fff; border:1px solid #555; padding:3px 9px; border-radius:20px }
+  .ctag.y{ background:var(--yellow); color:var(--ink); border-color:var(--ink) }
+  .case-body{ padding:20px 18px; flex:1; display:flex; flex-direction:column }
+  .case-big{ font-family:'Russo One',sans-serif; font-size:clamp(26px,3vw,34px); line-height:1.05; text-transform:uppercase }
+  .case-big .num{ color:var(--red) }
+  .case-big .hlc{ background:var(--yellow); padding:0 5px; box-shadow:2px 2px 0 var(--ink) }
+  .case-metrics{ list-style:none; margin:16px 0 0; display:flex; flex-direction:column; gap:8px }
+  .case-metrics li{ font-size:14px; font-weight:600; color:#222; display:flex; gap:9px; align-items:flex-start; line-height:1.35 }
+  .case-metrics li::before{ content:'❤'; color:var(--red); font-size:13px; line-height:1.5 }
+  .case-foot{ margin-top:auto; padding-top:16px }
+  .case-foot a{ font-weight:800; color:var(--red); text-decoration:none; font-size:14px } .case-foot a:hover{ text-decoration:underline }
+  .case-quip{ display:inline-block; margin-top:14px; background:var(--yellow); border:2px solid var(--ink); border-radius:10px; padding:6px 11px; font-size:12.5px; font-weight:800; transform:rotate(-1deg) }
+
+  .logos{ margin-top:46px; border:3px solid var(--ink); border-radius:16px; background:#fff; padding:22px 18px; box-shadow:6px 6px 0 var(--yellow) }
+  .logos .lt{ text-align:center; font-size:12px; font-weight:800; letter-spacing:.4px; color:#777; text-transform:uppercase; margin-bottom:14px }
+  .logo-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px }
+  .logo-chip{ font-family:'Russo One',sans-serif; font-size:15px; padding:9px 16px; border:2px solid var(--ink); border-radius:30px; background:var(--bg) }
+  .trust-line{ text-align:center; margin-top:18px; font-size:13.5px; color:#666; font-weight:600; line-height:1.5 }
+  .trust-line b{ color:var(--ink) }
+  .sec-cta{ display:flex; justify-content:center; margin-top:40px }
+
+  /* ===== ЭКРАН 4 — РЕДАКЦИЯ + ЯНДЕКС ===== */
+  .twocol{ display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:48px }
+  .panel{ border:3px solid var(--ink); border-radius:18px; padding:26px 24px; background:#fff; box-shadow:7px 7px 0 var(--ink) }
+  .panel.dark{ background:var(--ink); color:#fff; box-shadow:7px 7px 0 var(--red) }
+  .panel .pe{ display:inline-block; font-family:'Russo One',sans-serif; font-size:12px; text-transform:uppercase; background:var(--red); color:#fff; padding:5px 11px; border-radius:7px; transform:rotate(-1.5deg); margin-bottom:14px }
+  .panel.dark .pe{ background:var(--yellow); color:var(--ink) }
+  .panel h3{ font-family:'Russo One',sans-serif; font-size:24px; text-transform:uppercase; line-height:1.05 }
+  .panel p.pp{ font-size:14.5px; line-height:1.55; margin-top:12px; font-weight:500 }
+  .panel.dark p.pp{ color:#d8d8d8 }
+  .pipe{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:18px 0 4px }
+  .pipe .pl{ font-family:'Russo One',sans-serif; font-size:13px; background:var(--yellow); color:var(--ink); border:2px solid var(--ink); padding:6px 12px; border-radius:9px }
+  .pipe .px{ font-family:'Russo One',sans-serif; color:var(--red) }
+  .crew{ list-style:none; margin-top:8px; display:flex; flex-direction:column; gap:12px }
+  .crew li{ display:flex; gap:12px; align-items:flex-start }
+  .ava{ flex:0 0 44px; width:44px; height:44px; border-radius:50%; border:3px solid var(--ink); background:var(--yellow); display:flex; align-items:center; justify-content:center; font-family:'Russo One',sans-serif; font-size:16px }
+  .crew .who{ font-weight:800; font-size:14.5px } .crew .role{ font-size:12.5px; color:#555; font-weight:500; line-height:1.35 }
+  .kicker{ margin-top:18px; background:var(--yellow); color:var(--ink); border:3px solid var(--ink); border-radius:12px; padding:13px 14px; font-size:13.5px; font-weight:700; line-height:1.45 }
+  .trophy{ list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:11px }
+  .trophy li{ display:flex; gap:11px; align-items:flex-start; font-size:14.5px; font-weight:600; line-height:1.4 }
+  .trophy li .tm{ flex:0 0 auto; font-size:18px }
+  .panel.dark .trophy li{ color:#eee }
+
+  /* ===== ЭКРАН 5 — КАНАЛЫ ===== */
+  .chan{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:48px }
+  .ch{ border:3px solid var(--ink); border-radius:18px; background:#fff; padding:24px 22px; box-shadow:7px 7px 0 var(--ink); transition:.15s; position:relative }
+  .ch:hover{ transform:translate(-2px,-2px); box-shadow:10px 10px 0 var(--red) }
+  .ch .flag{ position:absolute; top:-14px; right:18px; font-family:'Russo One',sans-serif; font-size:12px; text-transform:uppercase; background:var(--red); color:#fff; border:3px solid var(--ink); padding:4px 11px; border-radius:8px; transform:rotate(3deg) }
+  .ch .ico{ font-size:28px }
+  .ch h3{ font-family:'Russo One',sans-serif; font-size:21px; text-transform:uppercase; margin:8px 0 2px; line-height:1.08 }
+  .ch p{ font-size:14px; line-height:1.55; color:#333; font-weight:500; margin-top:6px }
+  .ch .metric{ display:inline-block; margin-top:14px; background:var(--yellow); border:2px solid var(--ink); border-radius:10px; padding:5px 11px; font-weight:800; font-size:13px }
+  .ch a.more{ display:inline-block; margin-top:14px; font-weight:800; color:var(--red); text-decoration:none; font-size:13.5px } .ch a.more:hover{ text-decoration:underline }
+  .other{ margin-top:24px; border:3px dashed var(--ink); border-radius:18px; background:var(--bg); padding:24px; display:flex; gap:20px; align-items:center; flex-wrap:wrap }
+  .other img{ width:108px; height:auto; border:3px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); transform:rotate(-2deg) }
+  .other .ot{ flex:1; min-width:240px }
+  .other h3{ font-family:'Russo One',sans-serif; font-size:20px; text-transform:uppercase; line-height:1.08 }
+  .other p{ font-size:14px; line-height:1.55; color:#333; font-weight:500; margin-top:8px }
+
+  /* ===== ЭКРАН 6 — FAQ ===== */
+  .faq{ margin-top:44px; display:grid; grid-template-columns:1fr; gap:14px; max-width:880px }
+  .qa{ border:3px solid var(--ink); border-radius:14px; background:#fff; overflow:hidden; box-shadow:5px 5px 0 var(--ink) }
+  .qa.open{ box-shadow:6px 6px 0 var(--red) }
+  .q{ display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:none; border:none; cursor:pointer; font-family:inherit; padding:18px 20px; font-weight:800; font-size:16px; color:var(--ink) }
+  .q .tagq{ flex:0 0 auto; font-family:'Russo One',sans-serif; font-size:12px; background:var(--ink); color:#fff; padding:5px 9px; border-radius:7px }
+  .qa.open .q .tagq{ background:var(--red) }
+  .q .plus{ margin-left:auto; font-family:'Russo One',sans-serif; font-size:22px; color:var(--red); transition:.2s }
+  .qa.open .q .plus{ transform:rotate(45deg) }
+  .a{ max-height:0; overflow:hidden; transition:max-height .3s ease }
+  .a-in{ padding:0 20px 20px 56px; font-size:14.5px; line-height:1.6; color:#333; font-weight:500 }
+  .a-in b{ background:var(--yellow); padding:0 3px }
+  .faq-meme{ margin-top:30px; display:flex; justify-content:center }
+  .faq-meme img{ width:260px; max-width:80%; border:3px solid var(--ink); border-radius:14px; box-shadow:6px 6px 0 var(--red); transform:rotate(-1.5deg) }
+
+  /* ===== ЭКРАН 7 — ФИНАЛ ===== */
+  .final{ background:var(--ink); color:#fff }
+  .final-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:34px; align-items:start; margin-top:10px }
+  .final .h2{ color:#fff } .final .h2 .hl{ color:var(--ink) }
+  .final .lead{ color:#d8d8d8 }
+  .final-cat{ margin-top:24px; display:flex; align-items:center; gap:16px }
+  .final-cat img{ width:118px; height:auto }
+  .final-cat .cc{ font-weight:700; font-size:14px; color:#cfcfcf; line-height:1.5 }
+  .final-cat .cc b{ color:var(--yellow) }
+
+  .form-card{ background:#fff; color:var(--ink); border:3px solid var(--yellow); border-radius:18px; padding:26px 24px; box-shadow:8px 8px 0 var(--red) }
+  .form-card .ft{ font-family:'Russo One',sans-serif; font-size:22px; text-transform:uppercase; line-height:1.06 }
+  .form-card label{ display:block; font-weight:800; font-size:13px; margin:16px 0 6px }
+  .form-card input[type=text]{ width:100%; border:2px solid var(--ink); border-radius:10px; padding:12px; font-family:inherit; font-size:14px; outline:none } .form-card input[type=text]:focus{ border-color:var(--red) }
+  .seg{ display:flex; gap:8px; flex-wrap:wrap }
+  .seg button{ flex:1; min-width:90px; font-family:inherit; cursor:pointer; border:2px solid var(--ink); border-radius:10px; background:#fff; font-weight:800; font-size:13.5px; padding:11px 8px; transition:.12s }
+  .seg button.sel{ background:var(--ink); color:#fff }
+  .seg button:hover{ border-color:var(--red) }
+  .micro{ font-size:12px; color:#666; margin-top:12px; font-weight:600; line-height:1.45 }
+  .alt-magnet{ margin-top:22px; border:3px dashed #555; border-radius:14px; padding:18px }
+  .alt-magnet .am-t{ font-family:'Russo One',sans-serif; font-size:16px; text-transform:uppercase; color:#fff }
+  .alt-magnet p{ font-size:13px; color:#cfcfcf; margin:6px 0 12px }
+  .alt-magnet textarea{ width:100%; height:64px; border:2px solid var(--ink); border-radius:10px; padding:10px; font-family:inherit; font-size:13px; resize:none; outline:none; color:var(--ink) }
+  .alt-verdict{ display:none; margin-top:12px; font-size:13.5px; line-height:1.5; color:#fff } .alt-verdict.show{ display:block }
+
+  /* ===== ФУТЕР ===== */
+  footer{ background:#0f0f0f; color:#cfcfcf; border-top:3px solid var(--red) }
+  .foot-in{ max-width:1240px; margin:0 auto; padding:46px 36px 30px; display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:30px }
+  .foot-in .logo{ color:#fff }
+  footer .fcol h4{ font-family:'Russo One',sans-serif; font-size:13px; text-transform:uppercase; color:#fff; margin-bottom:12px; letter-spacing:.4px }
+  footer .fcol a, footer .fcol p{ display:block; color:#bdbdbd; text-decoration:none; font-size:13.5px; margin-bottom:9px; line-height:1.45 }
+  footer .fcol a:hover{ color:var(--yellow) }
+  .foot-rr{ max-width:1240px; margin:0 auto; padding:0 36px 30px; font-size:12.5px; color:#7f7f7f; line-height:1.5 }
+  .foot-rr b{ color:#bdbdbd }
+  .foot-bot{ border-top:1px solid #2a2a2a }
+  .foot-bot-in{ max-width:1240px; margin:0 auto; padding:18px 36px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:12px; color:#7f7f7f }
+
+  /* ===== АДАПТИВ ===== */
+  @media(max-width:980px){
+    .flow{ grid-template-columns:repeat(2,1fr) } .step .arr{ display:none }
+    .twocol{ grid-template-columns:1fr }
+    .final-grid{ grid-template-columns:1fr }
+    .foot-in{ grid-template-columns:1fr 1fr }
+  }
+  @media(max-width:920px){ main{ grid-template-columns:1fr } nav{display:none} .burger{ display:flex } .wall{ columns:2 } }
+  @media(max-width:760px){
+    .sec{ padding:56px 22px }
+    .cases{ grid-template-columns:1fr } .chan{ grid-template-columns:1fr }
+    header{ padding:16px 22px }
+  }
+  @media(max-width:560px){
+    .wall{ columns:1 }
+    .flow{ grid-template-columns:1fr }
+    .foot-in{ grid-template-columns:1fr }
+    .seg button{ min-width:0 }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">медиа<span>сфера</span></div>
+  <nav>
+    <a href="#cases">Кейсы</a><a href="#crew">Редакция</a><a href="#channels">Каналы</a><a href="#faq">FAQ</a>
+    <button class="btn" onclick="scrollToId('contact')">Обсудить задачу</button>
+  </nav>
+  <button class="burger" aria-label="Меню" onclick="document.getElementById('mob').classList.add('open')"><span></span><span></span><span></span></button>
+</header>
+
+<!-- мобильное меню -->
+<div class="mob" id="mob" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="mob-panel">
+    <button class="mob-close" aria-label="Закрыть" onclick="document.getElementById('mob').classList.remove('open')">×</button>
+    <a href="#cases" onclick="closeMob()">Кейсы</a>
+    <a href="#crew" onclick="closeMob()">Редакция</a>
+    <a href="#channels" onclick="closeMob()">Каналы</a>
+    <a href="#faq" onclick="closeMob()">FAQ</a>
+    <button class="btn" style="margin-top:14px" onclick="closeMob();scrollToId('contact')">Обсудить задачу</button>
+  </div>
+</div>
+
+<!-- ===================== ЭКРАН 1 — HERO (готов, сохранён) ===================== -->
+<main>
+  <section>
+    <span class="pov">POV: вы открыли наш сайт 👀</span>
+    <h1>Ваши статьи наконец-то <span class="hl">продают</span> <span class="em">📈</span></h1>
+    <p class="sub">Делаем контент-маркетинг, который понимает интернет — и закрывает боль <b>«статьи есть, а лидов нет»</b>. Пишем для ПромоСтраниц, Дзена и СМИ так, что доходит до продаж.</p>
+
+    <div class="cta-row">
+      <button class="btn btn-lg" onclick="scrollToId('contact')">Обсудить задачу</button>
+    </div>
+
+    <div class="magnet">
+      <div class="mt">Кринж или база? 🐾</div>
+      <p>Закинь свой текст — AI скажет, продаёт он или это кринж, и даст 3 правки.</p>
+      <textarea id="t" placeholder="Вставь сюда свой текст…">Мы — команда профессионалов, предлагающая широкий спектр качественных услуг.</textarea>
+      <button class="btn" style="width:100%;margin-top:10px" onclick="document.getElementById('v').classList.add('show')">Проверить →</button>
+      <div class="verdict" id="v">
+        <span class="stamp">Кринж · 28%</span>
+        <p style="margin-top:10px"><b>«широкий спектр качественных услуг»</b> — так пишут все. Правки: 1) начни с боли клиента; 2) дай цифру вместо «качественных»; 3) один оффер вместо «спектра». <b style="color:var(--red)">Превратим в базу →</b></p>
+      </div>
+    </div>
+
+    <div class="pills">
+      <span class="pill">✓ партнёр Яндекса с 2011</span>
+      <span class="pill">✓ эксперт Яндекс Рекламы</span>
+      <span class="pill">🏆 Silver Mercury 2024</span>
+    </div>
+  </section>
+
+  <section class="wall" id="wall">
+    <figure class="meme"><img src="assets/memes/boyfriend-ru.jpg" alt="мем"><figcaption class="cap"><span class="like">❤ 4,5K</span> · маркетолог, мы всё видим</figcaption></figure>
+    <figure class="meme"><img src="assets/memes/drake-ru.jpg" alt="мем"><figcaption class="cap"><span class="like">❤ 7,1K</span> · да, 1 статья = +45%</figcaption></figure>
+    <figure class="meme"><img src="assets/memes/brain-ru.jpg" alt="мем"><figcaption class="cap"><span class="like">❤ 3,8K</span> · путь к просветлению</figcaption></figure>
+    <figure class="meme"><img src="assets/memes/fine-ru.jpg" alt="мем"><figcaption class="cap"><span class="like">❤ 9,2K</span> · знакомо? мы чиним</figcaption></figure>
+  </section>
+</main>
+
+<div class="ticker"><div class="tt">
+  <span><b>+45%</b> к продажам <span class="em">📈</span></span><span>дочитка с 22 до <b>7,14 ₽</b></span><span>CPA <b>−72%</b></span><span><b>945 млн</b> охвата</span><span><b>1 798</b> статей</span><span>статьи &gt; вода 💯</span>
+  <span><b>+45%</b> к продажам <span class="em">📈</span></span><span>дочитка с 22 до <b>7,14 ₽</b></span><span>CPA <b>−72%</b></span><span><b>945 млн</b> охвата</span><span><b>1 798</b> статей</span><span>статьи &gt; вода 💯</span>
+</div></div>
+
+<!-- ===================== ЭКРАН 2 — ИНСАЙТ + СХЕМА ===================== -->
+<section class="insight" id="system">
+  <div class="sec">
+    <div class="reveal">
+      <span class="eyebrow">⚡ insight, который меняет всё</span>
+      <h2 class="h2">Хороший текст не продаёт.<br><span class="hl">Продаёт системный подход</span></h2>
+      <p class="lead">Большинство агентств сдают текст — и на этом всё. У нас в этот момент работа только начинается: статью надо <b>довести до читателя</b>, прогнать через тесты и докрутить до заявок. Поэтому результат меряем не в знаках, а в деньгах.</p>
+      <div class="insight-note">
+        <span class="tag">текст готов ≠ работа готова</span>
+        <span style="color:#bbb;font-weight:600;font-size:14px">↓ вот что проходит ваша статья по дороге к продаже</span>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="step reveal"><div class="n">01</div><div class="st">Бриф + сценарий</div><div class="sd">Подробный сценарий статьи, а не «мини-план в три строки».</div><div class="arr">→</div></div>
+      <div class="step reveal"><div class="n">02</div><div class="st">Текст</div><div class="sd">Пишет редакция: автор → редактор → корректор.</div><div class="arr">→</div></div>
+      <div class="step reveal"><div class="n">03</div><div class="st">Дистрибуция</div><div class="sd">ПромоСтраницы · Дзен · СМИ · блог — туда, где ваша аудитория.</div><div class="arr">→</div></div>
+      <div class="step reveal"><div class="n">04</div><div class="st">Тесты</div><div class="sd">Заголовки и обложки гоняем без лимита, пока не найдём связку.</div><div class="arr">→</div></div>
+      <div class="step reveal hot"><div class="n">05</div><div class="st">Дашборд</div><div class="sd">Прозрачно: дочитки, переходы, цена клика, цена заявки, ROMI.</div><div class="arr">→</div></div>
+      <div class="step reveal"><div class="n">06</div><div class="st">Масштаб</div><div class="sd">Лучшие связки усиливаем, тёплых догоняем ретаргетингом.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ЭКРАН 3 — КЕЙСЫ ===================== -->
+<section id="cases">
+  <div class="sec">
+    <div class="reveal">
+      <span class="eyebrow">📊 мемы, которые завирусились в продажах</span>
+      <h2 class="h2">Кейсы, посчитанные <span class="red">до денег</span></h2>
+      <p class="lead">Не «написали 50 статей», а что эти статьи принесли. Один пост залетел — клиент пересчитывает выручку. Каждый кейс можно проверить.</p>
+    </div>
+
+    <div class="cases">
+
+      <article class="case reveal">
+        <div class="case-head">
+          <span class="case-name">Spice Active</span>
+          <div class="case-tags"><span class="ctag y">ПромоСтраницы</span><span class="ctag">БАДы</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-big"><span class="num">+45%</span> <span class="hlc">продаж</span> за 7 месяцев</div>
+          <ul class="case-metrics">
+            <li>+406,9% роста брендового спроса</li>
+            <li>455 597 переходов на Ozon</li>
+            <li>цена дочитки снижена с 22 до 7,14 ₽</li>
+          </ul>
+          <div class="case-foot">
+            <span class="case-quip">когда одна статья = квартальный план 🚀</span><br>
+            <a href="https://vc.ru/marketing/1458781" target="_blank" rel="noopener">Разбор на VC.ru →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-head">
+          <span class="case-name">Пиканта</span>
+          <div class="case-tags"><span class="ctag y">ПромоСтраницы</span><span class="ctag">FMCG</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-big"><span class="num">12 293</span> конверсии и <span class="hlc">+155%</span> запросов</div>
+          <ul class="case-metrics">
+            <li>21 млн человек охвата</li>
+            <li>1+ млн просмотров статей</li>
+            <li>587 000 дочитываний</li>
+          </ul>
+          <div class="case-foot">
+            <span class="case-quip">продукт с полки — а спрос как у новинки 🌶️</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-head">
+          <span class="case-name">Ринфин</span>
+          <div class="case-tags"><span class="ctag y">Дзен</span><span class="ctag">B2B-финансы</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-big"><span class="num">141</span> заявка в <span class="hlc">сложном B2B</span></div>
+          <ul class="case-metrics">
+            <li>цена заявки — 280–490 ₽</li>
+            <li>длинный цикл сделки, узкая аудитория</li>
+            <li>статьи дотянулись туда, где таргет молчит</li>
+          </ul>
+          <div class="case-foot">
+            <span class="case-quip">B2B думал, что он необучаем 🤝</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-head">
+          <span class="case-name">Vitabeauty</span>
+          <div class="case-tags"><span class="ctag y">ПромоСтраницы</span><span class="ctag">БАДы</span></div>
+        </div>
+        <div class="case-body">
+          <div class="case-big">CPA <span class="num">−72%</span>: со 100 до <span class="hlc">28 ₽</span></div>
+          <ul class="case-metrics">
+            <li>22 946 конверсий</li>
+            <li>441 000 просмотров статей</li>
+            <li>6 млн человек охвата</li>
+          </ul>
+          <div class="case-foot">
+            <span class="case-quip">финдиректор увидел CPA и прослезился 😮‍💨</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="logos reveal">
+      <div class="lt">нам доверяют</div>
+      <div class="logo-row">
+        <span class="logo-chip">Hansa</span>
+        <span class="logo-chip">Familia</span>
+        <span class="logo-chip">Пиканта</span>
+        <span class="logo-chip">Мегаптека</span>
+        <span class="logo-chip">KIBERCAR</span>
+        <span class="logo-chip">Spice Active</span>
+      </div>
+      <p class="trust-line">В числе ведущих контент-агентств по версии <b>Рейтинга Рунета</b> · десятки отзывов клиентов со средней оценкой <b>5.0</b>.</p>
+    </div>
+
+    <div class="sec-cta reveal">
+      <button class="btn btn-lg" onclick="scrollToId('contact')">Хочу такой же разбор по моей нише →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ЭКРАН 4 — РЕДАКЦИЯ + ЯНДЕКС ===================== -->
+<section id="crew">
+  <div class="sec">
+    <div class="reveal">
+      <span class="eyebrow">🐾 без бирж и фрилансеров-однодневок</span>
+      <h2 class="h2">Кто всё это <span class="red">пишет и закручивает</span></h2>
+      <p class="lead">Тексты делает штатная редакция полного цикла, а кампании ведут люди, которых <b>сам Яндекс зовёт учить рынок</b>. Это не «нашли копирайтера на бирже».</p>
+    </div>
+
+    <div class="twocol">
+
+      <div class="panel reveal">
+        <span class="pe">half A · кто пишет</span>
+        <h3>Пишет не биржа. Пишет редакция</h3>
+        <p class="pp">Над каждым текстом — полный цикл. Автор пишет, редактор выстраивает смыслы, корректор вычищает. В штате авторы, редакторы, корректоры, продюсеры и аналитики. Все сертифицированы по ПромоСтраницам, копирайтеры прошли очное обучение в школе контент-маркетинга Яндекса.</p>
+        <div class="pipe">
+          <span class="pl">Автор</span><span class="px">→</span><span class="pl">Редактор</span><span class="px">→</span><span class="pl">Корректор</span>
+        </div>
+        <ul class="crew">
+          <li><span class="ava">ТУ</span><span><span class="who">Тимур Угулава</span><span class="role">совладелец агентства · официальный эксперт Яндекс Рекламы по ПромоСтраницам · преподаёт в школе контент-маркетинга Яндекса</span></span></li>
+          <li><span class="ava">МБ</span><span><span class="who">Майя Блюм</span><span class="role">главный редактор</span></span></li>
+          <li><span class="ava">КУ</span><span><span class="who">Ксения Угулава</span><span class="role">продюсер контент-направления</span></span></li>
+          <li><span class="ava">+</span><span><span class="who">+ авторы, редакторы и корректоры</span><span class="role">полноценная команда, а не один человек на всё</span></span></li>
+        </ul>
+        <div class="kicker">30+ наших гайдов и разборов вышли в Cossa, VC.ru, Habr, ppc.world, SEOnews. Мы не просто работаем по правилам рынка — мы их во многом написали. 💯</div>
+      </div>
+
+      <div class="panel dark reveal">
+        <span class="pe">half B · за плечом Яндекс</span>
+        <h3>Нас рекомендует сам Яндекс</h3>
+        <p class="pp">Ваши кампании ведут люди, у которых ранний доступ к фичам платформы и которых зовут консультировать самих коллег из Яндекса.</p>
+        <ul class="trophy">
+          <li><span class="tm">✅</span><span>Сертифицированный партнёр Яндекса <b>с 2011 года</b></span></li>
+          <li><span class="tm">🚀</span><span>Первыми получаем доступ к новым функциям ПромоСтраниц — и консультируем коллег из Яндекса</span></li>
+          <li><span class="tm">🏆</span><span>Silver Mercury 2024 — «Лучшая брендформанс-кампания»</span></li>
+          <li><span class="tm">🎓</span><span>Вся команда — сертифицированные специалисты по ПромоСтраницам</span></li>
+        </ul>
+        <div class="kicker" style="background:#222;color:#eee;border-color:var(--yellow)">Перевод на человеческий: <b style="background:var(--yellow);color:#181818;padding:0 3px">ваши кампании ведут те, кто учит рынок</b>. 🤝</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ЭКРАН 5 — КАНАЛЫ ===================== -->
+<section class="insight" id="channels">
+  <div class="sec">
+    <div class="reveal">
+      <span class="eyebrow">📍 один продукт — разные площадки</span>
+      <h2 class="h2" style="color:#fff">Где будет <span class="hl">работать</span> ваш контент</h2>
+      <p class="lead">Один и тот же продукт можно продавать статьями в разных каналах. Подбираем канал под задачу — или собираем связку, чтобы добить результат.</p>
+    </div>
+
+    <div class="chan">
+
+      <div class="ch reveal">
+        <span class="flag">флагман</span>
+        <div class="ico">🔥</div>
+        <h3>Яндекс ПромоСтраницы</h3>
+        <p>Рекламные статьи в сети Яндекса — 65 млн человек в сутки. Читатель знакомится с продуктом ещё до перехода на сайт.</p>
+        <span class="metric">65 млн/сутки охвата</span>
+        <br><a class="more" onclick="scrollToId('contact')">Хочу сюда →</a>
+      </div>
+
+      <div class="ch reveal">
+        <div class="ico">🟡</div>
+        <h3>Дзен</h3>
+        <p>Ведение каналов под ключ и продвижение статей. Дочитка в среднем ~10 ₽, до 40% дочитавших переходят на сайт. Работает и на охват, и на прогрев.</p>
+        <span class="metric">дочитка ~10 ₽ · до 40% переходов</span>
+        <br><a class="more" onclick="scrollToId('contact')">Хочу сюда →</a>
+      </div>
+
+      <div class="ch reveal">
+        <div class="ico">📰</div>
+        <h3>Статьи для СМИ</h3>
+        <p>Экспертные материалы под требования отраслевых и федеральных площадок — пишем строго под формат конкретного издания.</p>
+        <span class="metric">пишем под требования площадки</span>
+        <br><a class="more" onclick="scrollToId('contact')">Хочу сюда →</a>
+      </div>
+
+      <div class="ch reveal">
+        <div class="ico">🏢</div>
+        <h3>Корпоративные блоги</h3>
+        <p>Блог под ключ: редполитика, контент-план, статьи, SEO-оптимизация. Чтобы блог приводил трафик, а не просто «был».</p>
+        <span class="metric">блог как канал продаж</span>
+        <br><a class="more" onclick="scrollToId('contact')">Хочу сюда →</a>
+      </div>
+
+    </div>
+
+    <div class="other reveal">
+      <img src="assets/memes/buttons.jpg" alt="мем: выбор формата">
+      <div class="ot">
+        <h3>И другой контент — под задачу 🧠</h3>
+        <p>Делаем не только это. Соцсети, email-рассылки, лендинги, сценарии, спецпроекты — если контент решает вашу задачу, обсудим формат индивидуально. Не загоняем продукт в один шаблон.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ЭКРАН 6 — FAQ ===================== -->
+<section id="faq">
+  <div class="sec">
+    <div class="reveal">
+      <span class="eyebrow">❓ Q&A без воды</span>
+      <h2 class="h2">Вопросы, которые задают <span class="red">перед стартом</span></h2>
+      <p class="lead">Самые частые — собрали в мем-ленту. Жми вопрос, чтобы развернуть ответ.</p>
+    </div>
+
+    <div class="faq">
+
+      <div class="qa reveal">
+        <button class="q" onclick="toggleQa(this)"><span class="tagq">POV</span> Мы небольшие — нам вообще подойдёт?<span class="plus">+</span></button>
+        <div class="a"><div class="a-in">Да. Мы <b>не отбираем клиентов по выручке</b> — отбираем задачи, которые реально можем решить. Если статейный канал вашему продукту не подходит, честно скажем об этом на первом созвоне, а не «продадим лишь бы».</div></div>
+      </div>
+
+      <div class="qa reveal">
+        <button class="q" onclick="toggleQa(this)"><span class="tagq">ASAP?</span> Когда ждать первых результатов?<span class="plus">+</span></button>
+        <div class="a"><div class="a-in">Первая неделя — обучение алгоритма, выводы делать рано. Рабочий горизонт теста — <b>один цикл вашей сделки</b>: за это время видно дочитки, переходы и первые заявки. А рост брендового спроса копится месяцами — его мы тоже измеряем.</div></div>
+      </div>
+
+      <div class="qa reveal">
+        <button class="q" onclick="toggleQa(this)"><span class="tagq">кто?</span> Кто пишет и как вы поймёте нашу специфику?<span class="plus">+</span></button>
+        <div class="a"><div class="a-in">Штатная редакция полного цикла: <b>автор → редактор → корректор</b>. Сначала брифование и подробный сценарий, который вы согласуете до написания. Эксперт с вашей стороны нужен на бриф и финальную сверку фактов. Работали с фармой, БАДами, B2B-финансами и недвижимостью.</div></div>
+      </div>
+
+      <div class="qa reveal">
+        <button class="q" onclick="toggleQa(this)"><span class="tagq">vs</span> ПромоСтраницы или Дзен — что выбрать?<span class="plus">+</span></button>
+        <div class="a"><div class="a-in">Коротко: <b>ПромоСтраницы — про трафик и заявки сейчас</b> (статья в сети Яндекса, 65 млн/сутки, ведёт на сайт). <b>Дзен — про охват и доверие вдолгую</b> (канал бренда растит и прогревает аудиторию). Часто лучший ответ — связка, поможем её собрать.</div></div>
+      </div>
+
+      <div class="qa reveal">
+        <button class="q" onclick="toggleQa(this)"><span class="tagq">хард</span> А сложные ниши — фарма, БАД, B2B?<span class="plus">+</span></button>
+        <div class="a"><div class="a-in">Это наша специализация. БАДы и фарма проходят модерацию <b>с нашим сопровождением</b> (кейсы Spice Active, Vitabeauty), в B2B умеем работать с длинным циклом сделки (Ринфин — 141 заявка). Сомневаетесь, пройдёт ли ваш продукт, — спросите, ответим до старта.</div></div>
+      </div>
+
+      <div class="qa reveal">
+        <button class="q" onclick="toggleQa(this)"><span class="tagq">💸</span> Сколько это стоит?<span class="plus">+</span></button>
+        <div class="a"><div class="a-in">Зависит от задачи и формата: тест и работа «под ключ» — это разные составы. <b>Посчитаем под вас</b> и сориентируем на коротком созвоне, без брифов на 40 полей. Цены поштучно тут не вывешиваем — слишком зависят от продукта.</div></div>
+      </div>
+
+    </div>
+
+    <div class="faq-meme reveal">
+      <img src="assets/memes/brain-ru.jpg" alt="мем: путь к просветлению">
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ЭКРАН 7 — ФИНАЛ + ФОРМА ===================== -->
+<section class="final" id="contact">
+  <div class="sec">
+    <div class="final-grid">
+
+      <div class="reveal">
+        <span class="eyebrow">🤙 залетай, обсудим</span>
+        <h2 class="h2">Расскажите о продукте — <span class="hl">предложим, как его продать контентом</span></h2>
+        <p class="lead">Без презентаций на 40 слайдов. Пара слов о продукте — остальное спросим сами и вернёмся с идеей, как его продавать статьями.</p>
+
+        <div class="final-cat">
+          <img src="assets/cat-coins.png" alt="кот с монетами">
+          <div class="cc">Этот кот уже посчитал ваши будущие заявки.<br><b>Осталось написать нам.</b></div>
+        </div>
+
+        <div class="alt-magnet">
+          <div class="am-t">Пока не готовы к разговору? 🐾</div>
+          <p>Прогоните свой текст через AI-разбор «Продаст или нет» — увидите, как мы думаем над текстом.</p>
+          <textarea id="t2" placeholder="Вставь сюда свой текст…">Наша компания предлагает индивидуальный подход и высокое качество.</textarea>
+          <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="document.getElementById('v2').classList.add('show')">Продаст или нет? →</button>
+          <div class="alt-verdict" id="v2">
+            <span class="stamp">Кринж · 24%</span>
+            <p style="margin-top:10px;color:#cfcfcf"><b style="color:#fff">«индивидуальный подход и высокое качество»</b> — так пишут все. Правки: 1) начни с боли клиента; 2) дай цифру вместо «качества»; 3) один конкретный оффер. <b style="color:var(--yellow)">Превратим в базу — на созвоне →</b></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card reveal">
+        <div class="ft">Обсудить задачу 🚀</div>
+        <form onsubmit="return false">
+          <label for="fname">Как вас зовут</label>
+          <input type="text" id="fname" placeholder="Имя">
+
+          <label>Как удобнее связаться</label>
+          <div class="seg" id="seg">
+            <button type="button" class="sel" onclick="pickSeg(this)">Telegram</button>
+            <button type="button" onclick="pickSeg(this)">Телефон</button>
+            <button type="button" onclick="pickSeg(this)">Почта</button>
+          </div>
+          <input type="text" id="fcontact" placeholder="@username / +7… / e-mail" style="margin-top:8px">
+
+          <label for="ftask">О задаче <span style="font-weight:600;color:#888">(необязательно)</span></label>
+          <input type="text" id="ftask" placeholder="Пара слов о продукте — остальное спросим сами">
+
+          <button class="btn btn-lg" style="width:100%;margin-top:18px" onclick="fakeSubmit()">Обсудить задачу</button>
+          <p class="micro" id="fmsg">Вернёмся в течение рабочего дня. Без рассылок и звонков «как вы там».</p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ФУТЕР -->
+  <footer>
+    <div class="foot-in">
+      <div class="fcol">
+        <div class="logo">медиа<span>сфера</span></div>
+        <p style="margin-top:12px">Контент-маркетинг, который доходит до продаж: ПромоСтраницы, Дзен, СМИ и блоги под ключ.</p>
+        <p style="margin-top:8px">ООО «Медиасфера» · реквизиты и договор предоставим по запросу.</p>
+      </div>
+      <div class="fcol">
+        <h4>Разделы</h4>
+        <a href="#system">Системный подход</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#crew">Редакция</a>
+        <a href="#channels">Каналы</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="fcol">
+        <h4>Связь</h4>
+        <a href="#" onclick="scrollToId('contact');return false">Telegram агентства →</a>
+        <a href="#contact" onclick="scrollToId('contact');return false">Обсудить задачу</a>
+        <a href="#">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div class="foot-rr">
+      <b>В числе ведущих контент-агентств по версии Рейтинга Рунета.</b> Десятки отзывов клиентов со средней оценкой 5.0 — профиль и отзывы доступны по запросу.
+    </div>
+    <div class="foot-bot">
+      <div class="foot-bot-in">
+        <span>© 2026 Медиасфера. Сделано с драйвом и реальными цифрами.</span>
+        <span>статьи &gt; вода 💯</span>
+      </div>
+    </div>
+  </footer>
+
+<script>
+// плавный скролл к якорю
+function scrollToId(id){
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+// мобильное меню
+function closeMob(){ document.getElementById('mob').classList.remove('open'); }
+// плавный скролл для всех якорных ссылок
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var id = this.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+
+// hero: появление мемов
+window.addEventListener('load',function(){
+  document.querySelectorAll('#wall .meme').forEach(function(m,i){ setTimeout(function(){ m.classList.add('in'); }, 120*i+120); });
+});
+
+// reveal секций на скролле
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+// FAQ аккордеон
+function toggleQa(btn){
+  var qa = btn.parentElement;
+  var a = qa.querySelector('.a');
+  var open = qa.classList.contains('open');
+  if(open){ qa.classList.remove('open'); a.style.maxHeight = null; }
+  else{ qa.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+}
+
+// форма: выбор канала связи
+function pickSeg(b){
+  document.querySelectorAll('#seg button').forEach(function(x){ x.classList.remove('sel'); });
+  b.classList.add('sel');
+  var ph = {'Telegram':'@username','Телефон':'+7…','Почта':'e-mail'};
+  document.getElementById('fcontact').setAttribute('placeholder', ph[b.textContent] || '');
+}
+function fakeSubmit(){
+  var name = document.getElementById('fname').value.trim();
+  var msg = document.getElementById('fmsg');
+  msg.innerHTML = name ? ('Принято, ' + name + '! 🚀 Вернёмся в течение рабочего дня. Без рассылок и звонков «как вы там».')
+                       : 'Напишите имя и контакт — и мы вернёмся в течение рабочего дня. 🐾';
+  msg.style.color = '#181818';
+  msg.style.fontWeight = '800';
+}
+</script>
+</body>
+</html>

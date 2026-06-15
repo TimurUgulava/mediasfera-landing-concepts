@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Медиасфера — эта страница и есть наша работа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf9f7;
+    --sheet:#ffffff;
+    --ink:#1a1a1a;
+    --red:#E30613;
+    --red-dark:#bd0005;
+    --grey:#6b6b6b;
+    --marker:#fff3b0;
+    --header-ink:#181818;
+    --serif:'Lora',Georgia,'Times New Roman',serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --hand:'Caveat',cursive;
+    --sheet-max:720px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.55;
+  }
+
+  /* ---------- STICKY HEADER ---------- */
+  header.topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,249,247,.78);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid rgba(24,24,24,.08);
+  }
+  .topbar-inner{
+    max-width:1180px;margin:0 auto;
+    padding:14px 32px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .logo{
+    font-family:var(--sans);
+    font-weight:700;font-size:21px;letter-spacing:-.02em;
+    color:var(--header-ink);
+    text-decoration:none;
+    user-select:none;
+  }
+  .logo .sfera{color:var(--red)}
+  nav.mainnav{display:flex;align-items:center;gap:28px}
+  nav.mainnav a{
+    font-size:14.5px;font-weight:500;color:var(--header-ink);
+    text-decoration:none;letter-spacing:.01em;opacity:.82;
+    transition:opacity .18s ease;
+  }
+  nav.mainnav a:hover{opacity:1}
+  .btn-head{
+    font-family:var(--sans);font-size:14.5px;font-weight:600;
+    background:var(--red);color:#fff;border:none;cursor:pointer;
+    padding:10px 20px;border-radius:8px;text-decoration:none;
+    transition:background .18s ease, transform .18s ease;
+    white-space:nowrap;
+  }
+  .btn-head:hover{background:var(--red-dark);transform:translateY(-1px)}
+
+  /* mobile menu toggle */
+  .burger{
+    display:none;background:none;border:none;cursor:pointer;
+    width:40px;height:40px;flex-direction:column;justify-content:center;gap:5px;
+    padding:8px;
+  }
+  .burger span{display:block;height:2px;width:22px;background:var(--header-ink);border-radius:2px;transition:transform .22s ease,opacity .22s ease}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-menu{
+    display:none;
+    border-top:1px solid rgba(24,24,24,.08);
+    background:rgba(250,249,247,.97);
+    padding:8px 18px 16px;
+  }
+  .mobile-menu.open{display:block;animation:fadeIn .2s ease}
+  .mobile-menu a{
+    display:block;padding:12px 4px;font-size:16px;font-weight:500;
+    color:var(--header-ink);text-decoration:none;
+    border-bottom:1px solid rgba(24,24,24,.06);
+  }
+  .mobile-menu a:last-child{border-bottom:none}
+  .mobile-menu .btn-head{display:inline-block;margin-top:12px}
+
+  /* ---------- STAGE ---------- */
+  .stage{
+    min-height:calc(100vh - 60px);
+    padding:56px 24px 72px;
+    display:flex;justify-content:center;
+  }
+  .layout{
+    position:relative;
+    width:100%;
+    max-width:var(--sheet-max);
+  }
+
+  /* ---------- SECTION WRAPPER (screens 2-7) ---------- */
+  .section{
+    padding:34px 24px 34px;
+    display:flex;justify-content:center;
+  }
+  .section.tight{padding-top:6px}
+
+  /* ---------- ARTICLE SHEET ---------- */
+  .sheet{
+    background:var(--sheet);
+    border-radius:6px;
+    box-shadow:
+      0 1px 1px rgba(26,26,26,.04),
+      0 28px 60px -28px rgba(26,26,26,.22),
+      0 8px 22px -14px rgba(26,26,26,.14);
+    padding:64px 72px 56px;
+    position:relative;
+  }
+  .sheet.compact{padding:54px 72px 50px}
+
+  .kicker{
+    font-family:var(--sans);
+    font-size:11.5px;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--red);
+    display:inline-flex;align-items:center;gap:9px;
+    margin-bottom:26px;
+  }
+  .kicker::before{
+    content:"";width:7px;height:7px;border-radius:50%;
+    background:var(--red);display:inline-block;
+    animation:pulseDot 2.4s ease-in-out infinite;
+  }
+  .kicker.static::before{animation:none}
+  @keyframes pulseDot{
+    0%,100%{box-shadow:0 0 0 0 rgba(227,6,19,.45)}
+    50%{box-shadow:0 0 0 5px rgba(227,6,19,0)}
+  }
+
+  h1.headline{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:39px;
+    line-height:1.18;
+    letter-spacing:-.012em;
+    color:var(--ink);
+    margin-bottom:8px;
+  }
+  h2.sec-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:31px;
+    line-height:1.22;
+    letter-spacing:-.012em;
+    color:var(--ink);
+    margin-bottom:18px;
+  }
+  h3.sub-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:21px;
+    line-height:1.3;
+    color:var(--ink);
+    margin-bottom:14px;
+  }
+  .h1-note{
+    font-family:var(--sans);
+    font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--grey);font-weight:500;
+    border-top:1px dashed rgba(26,26,26,.16);
+    padding-top:10px;margin-top:14px;margin-bottom:26px;
+    display:inline-block;
+  }
+
+  .subhead{
+    font-family:var(--sans);
+    font-size:16px;line-height:1.6;color:#3a3a3a;
+    margin-bottom:30px;max-width:60ch;
+  }
+  .subhead b{color:var(--ink);font-weight:600}
+
+  .lead{
+    font-family:var(--serif);
+    font-size:19px;line-height:1.68;color:#2a2a2a;
+    margin-bottom:22px;
+  }
+
+  .body-p{
+    font-family:var(--serif);
+    font-size:18px;line-height:1.72;color:#2a2a2a;
+    margin-bottom:22px;
+  }
+  .body-p:last-child{margin-bottom:0}
+  .body-p b{font-weight:600;color:var(--ink)}
+
+  .number-line{
+    font-family:var(--serif);
+    font-size:18px;line-height:1.7;color:#2a2a2a;
+    margin-bottom:30px;
+  }
+  .mark{
+    background:linear-gradient(transparent 62%, var(--marker) 62%);
+    background-size:0% 100%;
+    background-repeat:no-repeat;
+    padding:0 2px;font-weight:600;color:var(--ink);
+    box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    transition:none;
+  }
+  .mark.lit{animation:markFill .45s ease forwards}
+  @keyframes markFill{from{background-size:0% 100%}to{background-size:100% 100%}}
+  /* auto-fill markers inside sections when revealed */
+  .in .mark{animation:markFill .55s ease .25s forwards}
+
+  .byline{
+    font-family:var(--serif);font-style:italic;
+    font-size:14.5px;line-height:1.6;color:var(--grey);
+    border-left:2px solid rgba(26,26,26,.12);
+    padding:2px 0 2px 16px;
+    margin-bottom:34px;
+  }
+  .byline .signmark{font-family:var(--hand);font-style:normal;color:var(--red);font-size:19px;margin-right:6px}
+
+  .divider{
+    border:none;border-top:1px solid rgba(26,26,26,.1);
+    margin:0 0 30px;
+  }
+  .divider.mt{margin-top:34px}
+
+  /* ---------- META TWIST (voice switch) ---------- */
+  .meta{
+    border-left:4px solid var(--red);
+    padding:6px 0 6px 22px;
+    margin-bottom:30px;
+  }
+  .meta p{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:23px;line-height:1.35;letter-spacing:-.01em;
+    color:var(--ink);
+  }
+  .meta .accent{color:var(--red)}
+
+  /* ---------- CTA ROW ---------- */
+  .cta-row{
+    display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+    margin-bottom:26px;
+  }
+  .cta-row.center{justify-content:flex-start}
+  .cta-row.nomb{margin-bottom:0}
+  .btn-primary{
+    font-family:var(--sans);font-size:16px;font-weight:600;
+    background:var(--red);color:#fff;border:none;cursor:pointer;
+    padding:15px 30px;border-radius:9px;text-decoration:none;
+    transition:transform .16s ease, background .16s ease, box-shadow .16s ease;
+    box-shadow:0 6px 16px -8px rgba(227,6,19,.55);
+    white-space:nowrap;
+  }
+  .btn-primary:hover{
+    transform:translateY(-1px);
+    background:var(--red-dark);
+    box-shadow:0 10px 22px -8px rgba(189,0,5,.6);
+  }
+  .link-secondary{
+    font-family:var(--sans);font-size:15px;font-weight:500;
+    color:var(--ink);text-decoration:none;cursor:pointer;
+    background:none;border:none;padding:0;
+    line-height:1.4;max-width:34ch;
+    position:relative;text-align:left;
+  }
+  .link-secondary span{
+    border-bottom:2px solid var(--red);
+    padding-bottom:2px;
+    transition:padding-bottom .18s ease, color .18s ease;
+  }
+  .link-secondary:hover span{padding-bottom:5px;color:var(--red-dark)}
+
+  /* ---------- CHIPS ---------- */
+  .chips{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-bottom:24px;
+  }
+  .chip{
+    font-family:var(--sans);font-size:13px;font-weight:500;
+    color:#3a3a3a;background:var(--paper);
+    border:1px solid rgba(26,26,26,.12);
+    padding:6px 14px;border-radius:100px;
+    display:inline-flex;align-items:center;gap:7px;
+    text-decoration:none;
+    transition:border-color .16s ease, color .16s ease;
+  }
+  a.chip:hover{border-color:var(--red);color:var(--red)}
+  .chip::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--red);display:inline-block}
+  .chip.plain::before{display:none}
+  .chip.plain{padding:5px 12px;font-size:12px;color:var(--grey)}
+
+  /* ---------- TRUST LINE ---------- */
+  .trust{
+    font-family:var(--sans);font-size:13px;color:var(--grey);
+    letter-spacing:.01em;
+    border-top:1px solid rgba(26,26,26,.08);
+    padding-top:18px;
+    display:flex;flex-wrap:wrap;gap:6px 16px;
+  }
+  .trust span{display:inline-flex;align-items:center;white-space:nowrap}
+  .trust span+span::before{content:"·";margin-right:16px;color:rgba(26,26,26,.3)}
+
+  /* ---------- FLOW DIAGRAM (screen 2) ---------- */
+  .flow{
+    margin:8px 0 30px;
+    display:flex;flex-direction:column;gap:0;
+    position:relative;
+  }
+  .flow-step{
+    position:relative;
+    padding:16px 18px 16px 60px;
+    border:1px solid rgba(26,26,26,.1);
+    border-radius:12px;
+    background:var(--paper);
+    margin-bottom:14px;
+    opacity:0;transform:translateY(10px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .flow.in .flow-step{opacity:1;transform:none}
+  .flow.in .flow-step:nth-child(1){transition-delay:.05s}
+  .flow.in .flow-step:nth-child(2){transition-delay:.18s}
+  .flow.in .flow-step:nth-child(3){transition-delay:.31s}
+  .flow.in .flow-step:nth-child(4){transition-delay:.44s}
+  .flow.in .flow-step:nth-child(5){transition-delay:.57s}
+  .flow.in .flow-step:nth-child(6){transition-delay:.70s}
+  .flow-step:last-child{margin-bottom:0}
+  .flow-step .num{
+    position:absolute;left:16px;top:16px;
+    width:30px;height:30px;border-radius:50%;
+    background:var(--red);color:#fff;
+    font-family:var(--sans);font-size:14px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .flow-step h4{
+    font-family:var(--sans);font-size:16px;font-weight:700;color:var(--ink);
+    margin-bottom:3px;letter-spacing:-.01em;
+  }
+  .flow-step p{
+    font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--grey);
+  }
+  .flow-step .branch{
+    display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;
+  }
+  .flow-step .branch span{
+    font-family:var(--sans);font-size:12px;font-weight:600;
+    color:var(--red);background:#fff;
+    border:1px solid rgba(227,6,19,.3);
+    padding:3px 10px;border-radius:100px;
+  }
+  /* connector tick between steps */
+  .flow-step::after{
+    content:"";position:absolute;left:31px;bottom:-14px;
+    width:2px;height:14px;background:rgba(227,6,19,.4);
+  }
+  .flow-step:last-child::after{display:none}
+
+  /* ---------- CASE CARDS (screen 3) ---------- */
+  .cases{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+    margin:6px 0 28px;
+  }
+  .case{
+    border:1px solid rgba(26,26,26,.1);
+    border-radius:14px;
+    padding:24px 24px 22px;
+    background:var(--paper);
+    position:relative;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .case:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 30px -18px rgba(26,26,26,.3);
+    border-color:rgba(227,6,19,.4);
+  }
+  .case-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+  .case-tags span{
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.02em;
+    text-transform:uppercase;color:var(--grey);
+    background:#fff;border:1px solid rgba(26,26,26,.12);
+    padding:3px 9px;border-radius:100px;
+  }
+  .case-name{
+    font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);
+    margin-bottom:10px;
+  }
+  .case-hero{
+    font-family:var(--serif);font-size:24px;font-weight:700;line-height:1.25;
+    color:var(--ink);margin-bottom:12px;letter-spacing:-.01em;
+  }
+  .case-hero .mark{font-size:24px}
+  .case ul{list-style:none;padding:0;margin:0}
+  .case li{
+    font-family:var(--sans);font-size:13.5px;line-height:1.5;color:#3a3a3a;
+    padding:5px 0 5px 18px;position:relative;
+  }
+  .case li::before{
+    content:"";position:absolute;left:0;top:11px;
+    width:5px;height:5px;border-radius:50%;background:var(--red);
+  }
+  .case .case-link{
+    display:inline-block;margin-top:12px;
+    font-family:var(--sans);font-size:13px;font-weight:600;color:var(--red);
+    text-decoration:none;border-bottom:1px solid rgba(227,6,19,.4);padding-bottom:1px;
+  }
+  .case .case-link:hover{color:var(--red-dark)}
+
+  /* logo strip */
+  .logos{
+    display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;
+    margin:6px 0 18px;
+  }
+  .logo-pill{
+    font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.02em;
+    color:#4a4a4a;background:var(--paper);
+    border:1px solid rgba(26,26,26,.12);
+    padding:9px 18px;border-radius:8px;
+  }
+  .softline{
+    font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.6;
+    color:var(--grey);margin-bottom:6px;
+  }
+
+  /* ---------- PEOPLE (screen 4) ---------- */
+  .people{
+    display:grid;grid-template-columns:1fr 1fr;gap:16px;
+    margin:4px 0 26px;
+  }
+  .person{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:16px;border:1px solid rgba(26,26,26,.1);border-radius:12px;
+    background:var(--paper);
+  }
+  .person .ava{
+    flex-shrink:0;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--red),var(--red-dark));
+    color:#fff;font-family:var(--serif);font-weight:600;font-size:18px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .person .pname{
+    font-family:var(--sans);font-size:15.5px;font-weight:700;color:var(--ink);
+    margin-bottom:2px;letter-spacing:-.01em;
+  }
+  .person .prole{
+    font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--grey);
+  }
+  /* trophy shelf */
+  .trophies{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:4px 0 22px;
+  }
+  .trophy{
+    padding:16px 18px;border:1px solid rgba(26,26,26,.1);border-radius:12px;
+    background:var(--paper);position:relative;padding-left:48px;
+  }
+  .trophy::before{
+    content:"";position:absolute;left:16px;top:18px;
+    width:18px;height:18px;border-radius:4px;
+    background:var(--marker);border:2px solid var(--red);
+  }
+  .trophy b{font-family:var(--sans);font-size:14.5px;font-weight:700;color:var(--ink);display:block;margin-bottom:2px}
+  .trophy span{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--grey)}
+
+  /* ---------- CHANNELS (screen 5) ---------- */
+  .channels{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:6px 0 22px}
+  .channel{
+    border:1px solid rgba(26,26,26,.1);border-radius:14px;
+    padding:24px;background:var(--paper);
+    display:flex;flex-direction:column;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .channel:hover{transform:translateY(-3px);box-shadow:0 16px 30px -18px rgba(26,26,26,.3);border-color:rgba(227,6,19,.4)}
+  .channel .ch-flag{
+    font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--red);margin-bottom:8px;
+  }
+  .channel h4{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin-bottom:10px}
+  .channel p{font-family:var(--sans);font-size:14px;line-height:1.58;color:#3a3a3a;margin-bottom:14px;flex:1}
+  .channel p .mark{font-size:14px}
+  .channel .ch-cta{
+    font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--red);
+    text-decoration:none;align-self:flex-start;
+    border-bottom:1px solid rgba(227,6,19,.4);padding-bottom:1px;
+  }
+  .channel .ch-cta:hover{color:var(--red-dark)}
+  .other-box{
+    border:1px dashed rgba(227,6,19,.45);border-radius:14px;
+    padding:22px 24px;background:rgba(255,243,176,.18);
+  }
+  .other-box h4{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);margin-bottom:8px}
+  .other-box p{font-family:var(--sans);font-size:14.5px;line-height:1.6;color:#3a3a3a}
+
+  /* ---------- FAQ (screen 6) ---------- */
+  .faq{margin:6px 0 8px}
+  .faq-item{
+    border-top:1px solid rgba(26,26,26,.1);
+  }
+  .faq-item:last-child{border-bottom:1px solid rgba(26,26,26,.1)}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);
+    padding:20px 44px 20px 0;position:relative;line-height:1.35;
+  }
+  .faq-q::after{
+    content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    font-family:var(--sans);font-size:26px;font-weight:400;color:var(--red);
+    transition:transform .25s ease;line-height:1;
+  }
+  .faq-item.open .faq-q::after{transform:translateY(-50%) rotate(45deg)}
+  .faq-a{
+    max-height:0;overflow:hidden;
+    transition:max-height .32s ease;
+  }
+  .faq-a-inner{
+    font-family:var(--serif);font-size:16.5px;line-height:1.66;color:#3a3a3a;
+    padding:0 44px 22px 0;
+  }
+  .faq-a-inner .mark{font-size:16.5px}
+
+  /* ---------- FINAL FORM (screen 7) ---------- */
+  .form-grid{display:flex;flex-direction:column;gap:18px;margin:8px 0 0}
+  .field label{
+    display:block;font-family:var(--sans);font-size:13px;font-weight:600;
+    color:var(--ink);margin-bottom:7px;letter-spacing:.01em;
+  }
+  .field input, .field textarea{
+    width:100%;font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--ink);
+    border:1px solid rgba(26,26,26,.18);border-radius:10px;
+    padding:13px 15px;outline:none;background:#fff;
+    transition:border-color .18s ease;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--red)}
+  .field textarea{min-height:84px;resize:vertical}
+  .channel-pick{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .channel-pick button{
+    font-family:var(--sans);font-size:14px;font-weight:600;
+    color:#3a3a3a;background:var(--paper);
+    border:1px solid rgba(26,26,26,.16);
+    padding:9px 18px;border-radius:100px;cursor:pointer;
+    transition:all .16s ease;
+  }
+  .channel-pick button.active{
+    background:var(--red);color:#fff;border-color:var(--red);
+  }
+  .microcopy{
+    font-family:var(--sans);font-size:13px;color:var(--grey);
+    margin-top:12px;line-height:1.5;
+  }
+  .form-sent{
+    display:none;margin-top:16px;padding:16px 18px;
+    border-radius:10px;background:rgba(255,243,176,.4);
+    border:1px solid rgba(227,6,19,.25);
+    font-family:var(--serif);font-size:16px;color:var(--ink);line-height:1.55;
+  }
+  .form-sent.show{display:block;animation:fadeIn .3s ease}
+
+  .relaunch-box{
+    margin-top:30px;border-top:1px dashed rgba(26,26,26,.2);padding-top:24px;
+  }
+  .relaunch-box h3{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:8px}
+  .relaunch-box p{font-family:var(--sans);font-size:14.5px;line-height:1.6;color:#3a3a3a;margin-bottom:14px}
+
+  /* inline lead-magnet mini (final) */
+  .lm-inline{
+    margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;
+  }
+  .lm-inline textarea{
+    flex:1;min-width:240px;min-height:64px;resize:vertical;
+    font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--ink);
+    border:1px solid rgba(26,26,26,.18);border-radius:10px;padding:12px 14px;outline:none;
+    transition:border-color .18s ease;
+  }
+  .lm-inline textarea:focus{border-color:var(--red)}
+  .lm-inline .btn-primary{padding:12px 22px;font-size:15px;align-self:flex-start}
+
+  /* ---------- FOOTER ---------- */
+  footer.site-footer{
+    background:var(--header-ink);color:#cfcfcf;
+    padding:48px 24px 40px;margin-top:30px;
+  }
+  .footer-inner{max-width:var(--sheet-max);margin:0 auto}
+  .footer-top{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;
+    margin-bottom:26px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.12);
+  }
+  .footer-top .logo{color:#fff}
+  .footer-links{display:flex;gap:22px;flex-wrap:wrap}
+  .footer-links a{font-family:var(--sans);font-size:14px;color:#cfcfcf;text-decoration:none;transition:color .16s ease}
+  .footer-links a:hover{color:#fff}
+  .footer-meta{
+    font-family:var(--sans);font-size:13px;line-height:1.7;color:#9a9a9a;
+  }
+  .footer-meta .soft{color:#bdbdbd;font-style:italic;margin-top:10px;display:block}
+
+  /* ---------- MARGIN CALLOUTS (handwritten) ---------- */
+  .callout{
+    position:absolute;
+    font-family:var(--hand);
+    color:var(--red);
+    font-size:23px;line-height:1.15;font-weight:600;
+    width:165px;
+    opacity:0;
+    transition:opacity .5s ease, transform .5s ease;
+    pointer-events:none;
+    z-index:5;
+  }
+  .callout.show{opacity:1}
+  .callout small{display:block;font-size:16.5px;font-weight:500;opacity:.92;margin-top:2px}
+
+  /* right-side callouts */
+  .callout.right{right:-205px;text-align:left;transform:translateX(-8px)}
+  .callout.right.show{transform:translateX(0)}
+  /* left-side callout */
+  .callout.left{left:-200px;text-align:right;transform:translateX(8px)}
+  .callout.left.show{transform:translateX(0)}
+
+  #c1{top:128px}
+  #c2{top:330px}
+  #c3{top:476px}
+
+  /* section-level margin notes (screens 2-7) */
+  .note{
+    position:absolute;
+    font-family:var(--hand);color:var(--red);
+    font-size:22px;line-height:1.18;font-weight:600;
+    width:160px;z-index:6;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .sheet .note.in{opacity:1;transform:none}
+  .note small{display:block;font-size:15px;font-weight:500;opacity:.9;margin-top:2px}
+  .note.right{right:-200px;text-align:left}
+  .note.left{left:-196px;text-align:right}
+  .note.arrow-r::before{
+    content:"";position:absolute;left:-26px;top:8px;
+    width:22px;height:2px;background:var(--red);opacity:.55;
+  }
+  .note.arrow-l::after{
+    content:"";position:absolute;right:-26px;top:8px;
+    width:22px;height:2px;background:var(--red);opacity:.55;
+  }
+
+  /* connector arrows (svg) — hero only */
+  .arrow{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    overflow:visible;pointer-events:none;z-index:4;
+  }
+  .arrow path{
+    stroke:var(--red);stroke-width:1.6;fill:none;
+    stroke-dasharray:6 5;
+    stroke-dashoffset:240;
+    opacity:0;
+    transition:stroke-dashoffset 1.1s ease, opacity .3s ease;
+  }
+  .arrow path.drawn{stroke-dashoffset:0;opacity:.85}
+  .arrow circle{fill:var(--red);opacity:0;transition:opacity .3s ease .8s}
+  .arrow circle.drawn{opacity:.85}
+
+  /* ---------- LEAD-MAGNET PANEL ---------- */
+  .lm-backdrop{
+    position:fixed;inset:0;z-index:100;
+    background:rgba(24,24,24,.42);
+    backdrop-filter:blur(3px);
+    display:none;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .lm-backdrop.open{display:flex;animation:fadeIn .2s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .lm-panel{
+    background:#fff;border-radius:14px;
+    box-shadow:0 30px 70px -20px rgba(26,26,26,.45);
+    width:100%;max-width:560px;padding:34px 34px 30px;
+    animation:popUp .26s cubic-bezier(.2,.8,.3,1);
+    max-height:90vh;overflow:auto;
+  }
+  @keyframes popUp{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .lm-panel h3{font-family:var(--serif);font-size:23px;font-weight:600;margin-bottom:6px}
+  .lm-panel .lm-sub{font-size:14px;color:var(--grey);margin-bottom:18px}
+  .lm-panel textarea{
+    width:100%;min-height:120px;resize:vertical;
+    font-family:var(--serif);font-size:15.5px;line-height:1.6;color:var(--ink);
+    border:1px solid rgba(26,26,26,.18);border-radius:10px;
+    padding:14px 16px;outline:none;
+    transition:border-color .18s ease;
+  }
+  .lm-panel textarea:focus{border-color:var(--red)}
+  .lm-actions{display:flex;gap:12px;align-items:center;margin-top:16px}
+  .lm-actions .btn-primary{padding:12px 24px;font-size:15px}
+  .lm-close{
+    margin-left:auto;background:none;border:none;cursor:pointer;
+    font-family:var(--sans);font-size:14px;color:var(--grey);
+  }
+  .lm-close:hover{color:var(--ink)}
+  .verdict{
+    margin-top:20px;display:none;
+    border-top:1px dashed rgba(26,26,26,.18);padding-top:18px;
+  }
+  .verdict.show{display:block;animation:fadeIn .3s ease}
+  .verdict .score{
+    font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:4px;
+  }
+  .verdict .score b{color:var(--red)}
+  .verdict .vlabel{font-size:13px;color:var(--grey);margin-bottom:14px}
+  .verdict ol{margin:0;padding-left:0;list-style:none;counter-reset:fix}
+  .verdict li{
+    font-size:14.5px;line-height:1.55;color:#2a2a2a;
+    padding:9px 0 9px 38px;position:relative;
+    border-top:1px solid rgba(26,26,26,.07);
+  }
+  .verdict li:first-child{border-top:none}
+  .verdict li::before{
+    counter-increment:fix;content:counter(fix);
+    position:absolute;left:0;top:8px;
+    width:25px;height:25px;border-radius:50%;
+    background:var(--marker);color:var(--ink);
+    font-family:var(--sans);font-size:13px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .verdict .vfoot{margin-top:16px;font-size:13.5px;color:var(--grey)}
+  .verdict .vfoot a{color:var(--red);font-weight:600;text-decoration:none}
+
+  /* ---------- ENTRANCE ANIMATIONS ---------- */
+  .fadeup{opacity:0;transform:translateY(12px);transition:opacity .7s ease, transform .7s ease}
+  .fadeup.in{opacity:1;transform:none}
+  .meta.fadeup{transition-delay:.15s}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+    .fadeup{opacity:1;transform:none}
+    .callout{opacity:1}
+    .note{opacity:1;transform:none}
+    .flow-step{opacity:1;transform:none}
+    .arrow path{opacity:.85;stroke-dashoffset:0}
+    .arrow circle{opacity:.85}
+    .mark{background-size:100% 100%}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1180px){
+    :root{--sheet-max:660px}
+    .callout.right{right:-180px;width:150px}
+    .callout.left{left:-178px;width:150px}
+    .note.right{right:-176px;width:148px}
+    .note.left{left:-172px;width:148px}
+  }
+  @media (max-width:1040px){
+    /* hide margin callouts on narrow desktop/tablet, fold into inline tags */
+    .callout, .arrow, .note{display:none}
+    .layout{max-width:680px}
+  }
+  @media (max-width:860px){
+    .topbar-inner{padding:12px 18px}
+    nav.mainnav{display:none}
+    .burger{display:flex}
+    .stage{padding:34px 16px 48px}
+    .section{padding:24px 16px}
+    .sheet{padding:40px 26px 40px}
+    .sheet.compact{padding:38px 26px 36px}
+    h1.headline{font-size:29px}
+    h2.sec-title{font-size:25px}
+    h3.sub-title{font-size:19px}
+    .lead{font-size:17px}
+    .body-p{font-size:16.5px}
+    .number-line{font-size:16.5px}
+    .meta p{font-size:19px}
+    .subhead{font-size:15px}
+    .cta-row{gap:16px}
+    .link-secondary{max-width:none}
+    .trust{font-size:12px}
+    .cases{grid-template-columns:1fr}
+    .people{grid-template-columns:1fr}
+    .trophies{grid-template-columns:1fr}
+    .channels{grid-template-columns:1fr}
+    .case-hero{font-size:21px}
+    .faq-q{font-size:17px}
+    .faq-a-inner{font-size:15.5px}
+  }
+  @media (max-width:520px){
+    .sheet{padding:32px 20px 34px}
+    h1.headline{font-size:25px}
+    .meta p{font-size:18px}
+    .lm-panel{padding:26px 22px}
+    .footer-top{flex-direction:column;gap:18px}
+  }
+
+  /* inline "machinery" tags shown when margin callouts are hidden */
+  .inline-tag{
+    display:none;
+    font-family:var(--hand);color:var(--red);font-size:18px;font-weight:600;
+    margin-top:-12px;margin-bottom:18px;
+  }
+  @media (max-width:1040px){
+    .inline-tag{display:block}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ STICKY HEADER ============ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="logo">медиа<span class="sfera">сфера</span></a>
+    <nav class="mainnav">
+      <a href="#how">Как это сделано</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#team">Редакция</a>
+      <a href="#channels">Каналы</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#contact" class="btn-head" data-cta>Обсудить задачу</a>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how">Как это сделано</a>
+    <a href="#cases">Кейсы</a>
+    <a href="#team">Редакция</a>
+    <a href="#channels">Каналы</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="btn-head" data-cta>Обсудить задачу</a>
+  </div>
+</header>
+
+<!-- ============ HERO STAGE (SCREEN 1 — KEEP) ============ -->
+<main class="stage">
+  <div class="layout">
+
+    <!-- margin callouts + connector arrows -->
+    <svg class="arrow" id="arrows" aria-hidden="true">
+      <path id="a1" d="M 0 0 L 0 0"/>
+      <circle id="d1" r="3"/>
+      <path id="a2" d="M 0 0 L 0 0"/>
+      <circle id="d2" r="3"/>
+      <path id="a3" d="M 0 0 L 0 0"/>
+      <circle id="d3" r="3"/>
+    </svg>
+
+    <div class="callout right" id="c1" aria-hidden="true">← это хук<small>цепляет за 3 секунды — иначе читатель ушёл</small></div>
+    <div class="callout right" id="c2" aria-hidden="true">здесь прогрев<small>снимаем недоверие, показываем выгоду как историю</small></div>
+    <div class="callout left" id="c3" aria-hidden="true">а тут конверсия<small>читатель сам захотел перейти и купить</small></div>
+
+    <!-- the article sheet -->
+    <article class="sheet">
+
+      <span class="kicker fadeup">Читается ~40 секунд · вы уже внутри воронки</span>
+
+      <h1 class="headline fadeup" id="hook">«Я перепробовал шесть способов не засыпать к трём часам дня. Сработал только один»</h1>
+      <span class="h1-note fadeup">H1 = заголовок статьи, а не слоган агентства</span>
+      <p class="inline-tag">← это хук. Цепляет за 3 секунды</p>
+
+      <p class="subhead fadeup">Это не наш слоган. Это начало статьи, которую мы написали для клиента, — и за 7 секунд она затянула вас читать. Ровно так мы поведём и вашего покупателя: <b>от первой строки до кнопки «купить».</b></p>
+
+      <p class="lead fadeup" id="warm">К полудню мозг отключался, кофе уже не брал. Я не верил, что обычная статья способна что-то изменить — пока не дочитал одну до конца и не нажал «заказать». Дальше — что именно меня зацепило.</p>
+      <p class="inline-tag">здесь прогрев. Снимаем недоверие, показываем выгоду как историю</p>
+
+      <p class="number-line fadeup" id="conv">…именно так в кейсе Spice Active мы снизили цену дочитывания <span class="mark" id="marker">с 22 до 7,14 ₽</span> и подняли продажи на <span class="mark" id="marker2">+45%</span> — 455 597 переходов на Ozon.</p>
+      <p class="inline-tag">а тут конверсия. Читатель сам захотел перейти и купить</p>
+
+      <p class="byline fadeup"><span class="signmark">✍</span>Писала редакция «Медиасфера» — автор → редактор → корректор. Главред Майя Блюм. Все сертифицированы Яндексом по ПромоСтраницам.</p>
+
+      <hr class="divider fadeup">
+
+      <!-- META TWIST -->
+      <div class="meta fadeup">
+        <p>Вы только что были нашим читателем. <span class="accent">Теперь поставьте на это место своего покупателя</span> — и мы напишем такую статью про ваш продукт.</p>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-row fadeup">
+        <a href="#contact" class="btn-primary" data-cta>Обсудить задачу</a>
+        <button class="link-secondary" id="openLM" type="button">
+          <span>А ваш текст уже продаёт? Вставьте абзац — AI вынесет вердикт и предложит 3 правки →</span>
+        </button>
+      </div>
+
+      <!-- CHIPS -->
+      <div class="chips fadeup">
+        <a href="#channels" class="chip">Яндекс ПромоСтраницы</a>
+        <a href="#channels" class="chip">Дзен под ключ</a>
+        <a href="#channels" class="chip">Статьи в СМИ</a>
+        <a href="#channels" class="chip">Корпоративные блоги</a>
+      </div>
+
+      <!-- TRUST -->
+      <div class="trust fadeup">
+        <span>29 лет в деле</span>
+        <span>1798 статей</span>
+        <span>партнёр Яндекса по ПромоСтраницам</span>
+        <span>Silver Mercury 2024</span>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<!-- ============ SCREEN 2 — HOW IT'S MADE / SYSTEM ============ -->
+<section class="section" id="how">
+  <div class="layout">
+    <div class="note right arrow-r" data-note style="top:120px">это и есть «как сделано»<small>тот же приём — раскрываем кухню прямо на странице</small></div>
+    <div class="note left arrow-l" data-note style="top:430px">узел дистрибуции<small>текст без доставки до читателя не продаёт</small></div>
+
+    <article class="sheet">
+      <span class="kicker static fadeup">Раскрываем карты · как устроена эта работа</span>
+      <h2 class="sec-title fadeup">Хороший текст не продаёт. Продаёт системный подход</h2>
+
+      <p class="body-p fadeup">Большинство агентств сдают файл с текстом — и на этом всё. У нас в эту секунду работа только начинается. Статью нужно довести до читателя, прогнать через тесты и дотащить до заявок. Поэтому результат мы меряем не знаками, а <b>деньгами</b>.</p>
+
+      <p class="body-p fadeup">Вот путь, который проходит одна статья — от брифа до масштабирования. Тот же путь пройдёт и текст про ваш продукт.</p>
+
+      <div class="flow fadeup" id="flow">
+        <div class="flow-step">
+          <span class="num">1</span>
+          <h4>Бриф и сценарий</h4>
+          <p>Подробный сценарий статьи, а не «мини-план в три предложения». Вы согласуете его до того, как мы напишем первую строку.</p>
+        </div>
+        <div class="flow-step">
+          <span class="num">2</span>
+          <h4>Текст</h4>
+          <p>Пишет штатная редакция полного цикла: автор → редактор → корректор. Без случайных фрилансеров с биржи.</p>
+        </div>
+        <div class="flow-step">
+          <span class="num">3</span>
+          <h4>Дистрибуция</h4>
+          <p>Доставляем статью туда, где её прочитает ваш покупатель.</p>
+          <div class="branch">
+            <span>ПромоСтраницы</span><span>Дзен</span><span>СМИ</span><span>блог</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <span class="num">4</span>
+          <h4>Тесты</h4>
+          <p>Заголовки и обложки тестируем без ограничений — пока не найдём связку, которая держит дочитываемость.</p>
+        </div>
+        <div class="flow-step">
+          <span class="num">5</span>
+          <h4>Аналитика</h4>
+          <p>Прозрачный дашборд: дочитывания, переходы, цена клика, цена заявки, ROMI. Вы видите цифры, а не отчёт «всё хорошо».</p>
+        </div>
+        <div class="flow-step">
+          <span class="num">6</span>
+          <h4>Масштабирование</h4>
+          <p>Лучшие связки усиливаем, тёплую аудиторию догоняем ретаргетингом. Рабочее — в рост.</p>
+        </div>
+      </div>
+
+      <p class="body-p fadeup">Каждый шаг этой страницы вы уже прошли как читатель: вас зацепил заголовок, провёл прогрев, на цифре вы остановились. Это не случайность — это система.</p>
+
+      <div class="cta-row fadeup nomb">
+        <a href="#contact" class="btn-primary" data-cta>Обсудить задачу</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SCREEN 3 — CASES ============ -->
+<section class="section" id="cases">
+  <div class="layout">
+    <div class="note right arrow-r" data-note style="top:118px">тут считаем деньги<small>не «написали 50 статей», а что они принесли</small></div>
+
+    <article class="sheet">
+      <span class="kicker static fadeup">Ещё примеры из практики · посчитано до денег</span>
+      <h2 class="sec-title fadeup">Кейсы, посчитанные до денег</h2>
+      <p class="subhead fadeup">Не «написали много статей», а что эти статьи принесли. Каждую цифру можно проверить.</p>
+
+      <div class="cases">
+        <div class="case fadeup">
+          <div class="case-tags"><span>ПромоСтраницы</span><span>БАДы</span></div>
+          <div class="case-name">Spice Active</div>
+          <div class="case-hero"><span class="mark">+45% продаж</span> за 7 месяцев</div>
+          <ul>
+            <li>+406,9% роста брендового спроса</li>
+            <li>455 597 переходов на Ozon</li>
+            <li>цена дочитывания снижена с 22 до 7,14 ₽</li>
+          </ul>
+          <a href="https://vc.ru/marketing/1458781" class="case-link" target="_blank" rel="noopener">Разбор кейса на VC.ru →</a>
+        </div>
+
+        <div class="case fadeup">
+          <div class="case-tags"><span>ПромоСтраницы</span><span>Повседневный спрос</span></div>
+          <div class="case-name">Пиканта</div>
+          <div class="case-hero"><span class="mark">12 293 конверсии</span> и +155% брендовых запросов</div>
+          <ul>
+            <li>21 млн охвата</li>
+            <li>1+ млн просмотров статей</li>
+            <li>587 000 дочитываний</li>
+          </ul>
+        </div>
+
+        <div class="case fadeup">
+          <div class="case-tags"><span>Дзен</span><span>B2B-финансы</span></div>
+          <div class="case-name">Ринфин</div>
+          <div class="case-hero"><span class="mark">141 заявка</span> в сложном B2B — по 280–490 ₽</div>
+          <ul>
+            <li>длинный цикл сделки, узкая аудитория</li>
+            <li>статьи добираются туда, где таргет молчит</li>
+            <li>прогрев и заявки на одном канале</li>
+          </ul>
+        </div>
+
+        <div class="case fadeup">
+          <div class="case-tags"><span>ПромоСтраницы</span><span>БАДы</span></div>
+          <div class="case-name">Vitabeauty</div>
+          <div class="case-hero">CPA снизили на <span class="mark">72%</span>: со 100 до 28 ₽</div>
+          <ul>
+            <li>22 946 конверсий</li>
+            <li>441 000 просмотров статей</li>
+            <li>6 млн охвата</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="softline fadeup">Нам доверяют бренды, которые умеют считать:</p>
+      <div class="logos fadeup">
+        <span class="logo-pill">Hansa</span>
+        <span class="logo-pill">Familia</span>
+        <span class="logo-pill">Пиканта</span>
+        <span class="logo-pill">Мегаптека</span>
+        <span class="logo-pill">KIBERCAR</span>
+        <span class="logo-pill">Spice Active</span>
+      </div>
+      <p class="softline fadeup">Мы и в числе ведущих контент-агентств по версии Рейтинга Рунета — с отзывами клиентов на 5.0.</p>
+
+      <div class="cta-row fadeup nomb" style="margin-top:8px">
+        <a href="#contact" class="btn-primary" data-cta>Хочу такой же разбор по моей нише</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SCREEN 4 — EDITORIAL TEAM + YANDEX ============ -->
+<section class="section" id="team">
+  <div class="layout">
+    <div class="note left arrow-l" data-note style="top:118px">кто это писал<small>не биржа — штатная редакция полного цикла</small></div>
+    <div class="note right arrow-r" data-note style="top:560px">за плечом Яндекс<small>ваши кампании ведут те, кто учит рынок</small></div>
+
+    <article class="sheet">
+      <span class="kicker static fadeup">Кто это писал · редакция и партнёрство</span>
+      <h2 class="sec-title fadeup">Пишет не биржа. Пишет редакция</h2>
+
+      <p class="body-p fadeup">Над каждым текстом работает полный цикл: <b>автор</b> пишет, <b>редактор</b> выстраивает смыслы, <b>корректор</b> вычищает. В штате — авторы, редакторы, корректоры, продюсеры и аналитики. Все сертифицированы по ПромоСтраницам, копирайтеры прошли очное обучение в школе контент-маркетинга Яндекса. Ваши тексты не уходят случайным фрилансерам.</p>
+
+      <div class="people fadeup">
+        <div class="person">
+          <div class="ava">ТУ</div>
+          <div>
+            <div class="pname">Тимур Угулава</div>
+            <div class="prole">Совладелец агентства, официальный эксперт Яндекс Рекламы по ПромоСтраницам, преподаёт в школе контент-маркетинга Яндекса</div>
+          </div>
+        </div>
+        <div class="person">
+          <div class="ava">МБ</div>
+          <div>
+            <div class="pname">Майя Блюм</div>
+            <div class="prole">Главный редактор — отвечает за смыслы и качество каждого текста</div>
+          </div>
+        </div>
+        <div class="person">
+          <div class="ava">КУ</div>
+          <div>
+            <div class="pname">Ксения Угулава</div>
+            <div class="prole">Продюсер контент-направления — связывает редакцию, клиента и результат</div>
+          </div>
+        </div>
+        <div class="person">
+          <div class="ava">+</div>
+          <div>
+            <div class="pname">Авторы, редакторы, корректоры</div>
+            <div class="prole">Команда полного цикла — под вашу нишу подбираем тех, кто в ней разбирается</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-p fadeup">30+ наших гайдов и разборов опубликованы в Cossa, VC.ru, Habr, ppc.world, SEOnews. Мы не просто работаем по правилам рынка — мы их во многом написали.</p>
+
+      <hr class="divider mt fadeup">
+
+      <h3 class="sub-title fadeup">Нас рекомендует сам Яндекс</h3>
+      <p class="body-p fadeup">Это значит простую вещь: ваши кампании ведут люди, которые учат рынок и первыми пробуют то, что у других появится через полгода.</p>
+
+      <div class="trophies fadeup">
+        <div class="trophy">
+          <b>Партнёр Яндекса с 2011 года</b>
+          <span>Сертифицированный партнёр — больше десяти лет внутри платформы</span>
+        </div>
+        <div class="trophy">
+          <b>Доступ к фичам первыми</b>
+          <span>Раньше других получаем новые функции ПромоСтраниц и консультируем коллег из Яндекса</span>
+        </div>
+        <div class="trophy">
+          <b>Silver Mercury 2024</b>
+          <span>«Лучшая брендформанс-кампания» — отраслевое признание</span>
+        </div>
+        <div class="trophy">
+          <b>Вся команда сертифицирована</b>
+          <span>Каждый специалист по ПромоСтраницам подтверждён Яндексом</span>
+        </div>
+      </div>
+
+      <div class="cta-row fadeup nomb">
+        <a href="#contact" class="btn-primary" data-cta>Обсудить задачу</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SCREEN 5 — CHANNELS ============ -->
+<section class="section" id="channels">
+  <div class="layout">
+    <div class="note right arrow-r" data-note style="top:118px">где мы публикуем<small>один продукт — статьи в разных каналах</small></div>
+
+    <article class="sheet">
+      <span class="kicker static fadeup">Где это работает · каналы под задачу</span>
+      <h2 class="sec-title fadeup">Где будет работать ваш контент</h2>
+      <p class="subhead fadeup">Один и тот же продукт можно продавать статьями в разных каналах. Подбираем канал под задачу — или собираем связку.</p>
+
+      <div class="channels">
+        <div class="channel fadeup">
+          <div class="ch-flag">Флагман</div>
+          <h4>Яндекс ПромоСтраницы</h4>
+          <p>Рекламные статьи в сети Яндекса — <span class="mark">65 млн человек в сутки</span>. Читатель знакомится с продуктом ещё до перехода на сайт и приходит к вам уже прогретым.</p>
+          <a href="#contact" class="ch-cta" data-cta data-channel="ПромоСтраницы">Обсудить ПромоСтраницы →</a>
+        </div>
+        <div class="channel fadeup">
+          <div class="ch-flag">Под ключ</div>
+          <h4>Дзен</h4>
+          <p>Ведём каналы под ключ и продвигаем статьи. Средняя стоимость дочитки — около <span class="mark">10 ₽</span>, до 40% дочитавших переходят на сайт. Работает и на охват, и на прогрев.</p>
+          <a href="#contact" class="ch-cta" data-cta data-channel="Дзен">Обсудить Дзен →</a>
+        </div>
+        <div class="channel fadeup">
+          <div class="ch-flag">Экспертиза</div>
+          <h4>Статьи в СМИ</h4>
+          <p>Пишем экспертные статьи под требования отраслевых и федеральных площадок — под их формат, тон и редакционные правила. Чтобы материал приняли, а не вернули на доработку.</p>
+          <a href="#contact" class="ch-cta" data-cta data-channel="СМИ">Обсудить статьи в СМИ →</a>
+        </div>
+        <div class="channel fadeup">
+          <div class="ch-flag">Система</div>
+          <h4>Корпоративные блоги</h4>
+          <p>Блог под ключ: редполитика, контент-план, статьи, SEO-оптимизация. Чтобы блог приводил трафик и заявки, а не просто «был для галочки».</p>
+          <a href="#contact" class="ch-cta" data-cta data-channel="Корпоративный блог">Обсудить блог →</a>
+        </div>
+      </div>
+
+      <div class="other-box fadeup">
+        <h4>И другой контент — под задачу</h4>
+        <p>Делаем не только это. Соцсети, email-рассылки, лендинги, сценарии, спецпроекты — если контент решает вашу задачу, обсудим формат индивидуально.</p>
+      </div>
+
+      <div class="cta-row fadeup nomb" style="margin-top:22px">
+        <a href="#contact" class="btn-primary" data-cta>Подобрать канал под мою задачу</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SCREEN 6 — FAQ ============ -->
+<section class="section" id="faq">
+  <div class="layout">
+    <div class="note left arrow-l" data-note style="top:118px">что спрашивают<small>отвечаем прямо — до первого созвона</small></div>
+
+    <article class="sheet compact">
+      <span class="kicker static fadeup">Перед стартом · честные ответы</span>
+      <h2 class="sec-title fadeup">Вопросы, которые нам задают перед стартом</h2>
+
+      <div class="faq fadeup">
+        <div class="faq-item">
+          <button class="faq-q" type="button">Мы небольшая компания. Нам подойдёт?</button>
+          <div class="faq-a"><div class="faq-a-inner">Да. Мы не отбираем клиентов по выручке — отбираем задачи, которые можем решить. Если статейный канал вашему продукту не подходит, скажем об этом честно на первом созвоне, а не возьмём «лишь бы взять».</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Когда ждать первых результатов?</button>
+          <div class="faq-a"><div class="faq-a-inner">Первая неделя кампании — обучение алгоритма, делать выводы рано. Рабочий горизонт теста — один цикл вашей сделки: за это время видно дочитывания, переходы и первые заявки. Долгосрочный эффект — рост брендового спроса — накапливается месяцами, и мы его тоже измеряем.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Кто будет писать и как вы разберётесь в нашей специфике?</button>
+          <div class="faq-a"><div class="faq-a-inner">Штатная редакция полного цикла: автор, редактор, корректор. Сначала — брифование и подробный сценарий статьи, который вы согласуете до написания. Эксперт с вашей стороны нужен на бриф и финальную проверку фактов. Работали с фармой, БАДами, B2B-финансами и недвижимостью.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Чем ПромоСтраницы отличаются от Дзена и что выбрать нам?</button>
+          <div class="faq-a"><div class="faq-a-inner">ПромоСтраницы — рекламный формат: статья показывается в сети Яндекса (65 млн человек в сутки) и ведёт читателя на ваш сайт. Дзен — платформа с собственной аудиторией, где канал бренда растит подписчиков и прогревает их. Коротко: ПромоСтраницы — про трафик и заявки сейчас, Дзен — про охват и доверие вдолгую. Часто лучший ответ — связка, поможем её собрать.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Работаете ли со «сложными» нишами — фарма, БАДы, B2B?</button>
+          <div class="faq-a"><div class="faq-a-inner">Да, это наша специализация. БАДы и фарма проходят модерацию с нашим сопровождением (кейсы Spice Active, Vitabeauty), в B2B умеем работать с длинным циклом сделки (кейс Ринфин — 141 заявка). Сомневаетесь, пройдёт ли ваш продукт, — спросите, ответим до старта.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Сколько это стоит?</button>
+          <div class="faq-a"><div class="faq-a-inner">Зависит от задачи и формата работы — тест и работа «под ключ» это разные составы. Посчитаем под вас и сориентируем на коротком созвоне, без брифов на 40 полей. Цену называем после того, как поймём задачу, а не до.</div></div>
+        </div>
+      </div>
+
+      <div class="cta-row fadeup nomb" style="margin-top:26px">
+        <a href="#contact" class="btn-primary" data-cta>Задать свой вопрос</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ SCREEN 7 — FINAL FORM ============ -->
+<section class="section" id="contact">
+  <div class="layout">
+    <div class="note right arrow-r" data-note style="top:118px">финал воронки<small>здесь читатель этой страницы становится клиентом</small></div>
+
+    <article class="sheet">
+      <span class="kicker fadeup">Последний экран · ваш ход</span>
+      <h2 class="sec-title fadeup">Расскажите о продукте — предложим, как его продать контентом</h2>
+      <p class="subhead fadeup">Без брифов на 40 полей. Пара слов о продукте — остальное спросим сами на коротком созвоне.</p>
+
+      <form class="form-grid fadeup" id="leadForm" autocomplete="off">
+        <div class="field">
+          <label for="fName">Как вас зовут</label>
+          <input type="text" id="fName" placeholder="Имя" />
+        </div>
+
+        <div class="field">
+          <label>Как удобнее связаться</label>
+          <div class="channel-pick" id="channelPick">
+            <button type="button" class="active" data-ch="Telegram">Telegram</button>
+            <button type="button" data-ch="Телефон">Телефон</button>
+            <button type="button" data-ch="Почта">Почта</button>
+          </div>
+          <input type="text" id="fContact" placeholder="@username в Telegram" />
+        </div>
+
+        <div class="field">
+          <label for="fTask">О задаче <span style="font-weight:400;color:var(--grey)">(необязательно)</span></label>
+          <textarea id="fTask" placeholder="Пара слов о продукте — остальное спросим сами"></textarea>
+        </div>
+
+        <div class="cta-row nomb">
+          <button type="submit" class="btn-primary">Обсудить задачу</button>
+        </div>
+        <p class="microcopy">Вернёмся в течение рабочего дня. Без рассылок и звонков «как вы там».</p>
+
+        <div class="form-sent" id="formSent">
+          Спасибо! Заявка у редакции — вернёмся в течение рабочего дня и предложим, как продать ваш продукт контентом.
+        </div>
+      </form>
+
+      <!-- dup lead-magnet -->
+      <div class="relaunch-box fadeup">
+        <h3>Пока не готовы к разговору?</h3>
+        <p>Проверьте свой текст на нашем AI-разборе «Продаст или нет» — вставьте абзац и увидите, как мы думаем над текстом. Тот же подход, что и со статьями клиентов.</p>
+        <div class="lm-inline">
+          <textarea id="lmInline" placeholder="Вставьте абзац: первые строки статьи, описание товара, текст с лендинга…"></textarea>
+          <button class="btn-primary" id="lmInlineRun" type="button">Вынести вердикт</button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <a href="#" class="logo">медиа<span class="sfera">сфера</span></a>
+      <div class="footer-links">
+        <a href="https://t.me/" target="_blank" rel="noopener">Telegram агентства</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#contact" data-cta>Обсудить задачу</a>
+      </div>
+    </div>
+    <div class="footer-meta">
+      ООО «Медиасфера» · ИНН / ОГРН · контент-маркетинг полного цикла с 1997 года<br>
+      Сертифицированный партнёр Яндекса по ПромоСтраницам · Silver Mercury 2024
+      <span class="soft">Мы в числе ведущих контент-агентств по версии Рейтинга Рунета — с отзывами клиентов на оценку 5.0.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ LEAD-MAGNET MODAL ============ -->
+<div class="lm-backdrop" id="lmBackdrop" role="dialog" aria-modal="true" aria-labelledby="lmTitle">
+  <div class="lm-panel">
+    <h3 id="lmTitle">Продаст или нет?</h3>
+    <p class="lm-sub">Вставьте абзац своего текста — AI вынесет вердикт и предложит 3 конкретные правки.</p>
+    <textarea id="lmInput" placeholder="Вставьте сюда абзац: первые строки статьи, описание товара, текст с лендинга…"></textarea>
+    <div class="lm-actions">
+      <button class="btn-primary" id="lmRun" type="button">Вынести вердикт</button>
+      <button class="lm-close" id="lmClose" type="button">Закрыть</button>
+    </div>
+
+    <div class="verdict" id="verdict">
+      <p class="score">Вердикт: <b id="vScore">—</b></p>
+      <p class="vlabel" id="vLabel"></p>
+      <ol id="vList"></ol>
+      <p class="vfoot">Это демо-разбор по нашим редакционным правилам. Полный аудит текста — <a href="#contact" data-cta>в разговоре с редакцией →</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- entrance fade-up via IntersectionObserver ---------- */
+  var fadeEls = Array.prototype.slice.call(document.querySelectorAll('.fadeup'));
+  if(reduce){ fadeEls.forEach(function(el){el.classList.add('in');}); }
+  else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    },{threshold:.12});
+    fadeEls.forEach(function(el){ io.observe(el); });
+    // gentle cascade for above-the-fold hero cluster
+    var top = ['.kicker','.headline','.h1-note','.subhead','.lead'];
+    top.forEach(function(sel,i){
+      var el=document.querySelector(sel);
+      if(el){ setTimeout(function(){el.classList.add('in');}, 90+i*110); }
+    });
+  }
+
+  /* ---------- flow diagram reveal ---------- */
+  var flow=document.getElementById('flow');
+  if(flow){
+    if(reduce){ flow.classList.add('in'); }
+    else{
+      var fo=new IntersectionObserver(function(en){
+        en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); fo.unobserve(e.target);} });
+      },{threshold:.2});
+      fo.observe(flow);
+    }
+  }
+
+  /* ---------- section margin notes reveal ---------- */
+  var notes=Array.prototype.slice.call(document.querySelectorAll('.note[data-note]'));
+  if(reduce){ notes.forEach(function(n){n.classList.add('in');}); }
+  else{
+    var no=new IntersectionObserver(function(en){
+      en.forEach(function(e){ if(e.isIntersecting){ setTimeout(function(){e.target.classList.add('in');}, 250); no.unobserve(e.target);} });
+    },{threshold:.4});
+    notes.forEach(function(n){ no.observe(n); });
+  }
+
+  /* ---------- yellow marker fill on view (hero explicit ids) ---------- */
+  function litMarker(id){
+    var m=document.getElementById(id);
+    if(!m) return;
+    if(reduce){ m.classList.add('lit'); return; }
+    var mo=new IntersectionObserver(function(en){
+      en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('lit'); mo.unobserve(e.target);} });
+    },{threshold:.6});
+    mo.observe(m);
+  }
+  litMarker('marker');
+  setTimeout(function(){ litMarker('marker2'); }, 250);
+
+  /* markers inside sections fill when their fadeup parent enters (handled by .in .mark CSS);
+     also light up standalone marks via observer for safety */
+  var sectionMarks=Array.prototype.slice.call(document.querySelectorAll('.section .mark'));
+  if(!reduce){
+    var smo=new IntersectionObserver(function(en){
+      en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('lit'); smo.unobserve(e.target);} });
+    },{threshold:.6});
+    sectionMarks.forEach(function(m){ smo.observe(m); });
+  } else {
+    sectionMarks.forEach(function(m){ m.classList.add('lit'); });
+  }
+
+  /* ---------- hero margin callouts + drawn arrows ---------- */
+  var layout = document.querySelector('.stage .layout');
+  var map = [
+    {callout:'c1', target:'hook',   path:'a1', dot:'d1', side:'right'},
+    {callout:'c2', target:'warm',   path:'a2', dot:'d2', side:'right'},
+    {callout:'c3', target:'conv',   path:'a3', dot:'d3', side:'left'}
+  ];
+
+  function drawArrows(){
+    if(window.innerWidth <= 1040 || !layout) return;
+    var lRect = layout.getBoundingClientRect();
+    map.forEach(function(m){
+      var co=document.getElementById(m.callout);
+      var tg=document.getElementById(m.target);
+      var path=document.getElementById(m.path);
+      var dot=document.getElementById(m.dot);
+      if(!co||!tg||!path) return;
+      var cRect=co.getBoundingClientRect();
+      var tRect=tg.getBoundingClientRect();
+      var startX, startY, endX, endY;
+      startY = cRect.top - lRect.top + 12;
+      endY   = tRect.top - lRect.top + Math.min(26, tRect.height/2);
+      if(m.side==='right'){
+        startX = cRect.left - lRect.left - 4;
+        endX   = tRect.right - lRect.left - 8;
+      } else {
+        startX = cRect.right - lRect.left + 4;
+        endX   = tRect.left - lRect.left + 8;
+      }
+      var midX = (startX+endX)/2;
+      var d='M '+startX+' '+startY+' C '+midX+' '+startY+', '+midX+' '+endY+', '+endX+' '+endY;
+      path.setAttribute('d', d);
+      dot.setAttribute('cx', endX);
+      dot.setAttribute('cy', endY);
+    });
+  }
+
+  function revealCallouts(){
+    if(window.innerWidth <= 1040) return;
+    drawArrows();
+    map.forEach(function(m, i){
+      var co=document.getElementById(m.callout);
+      var path=document.getElementById(m.path);
+      var dot=document.getElementById(m.dot);
+      var delay = reduce ? 0 : 500 + i*650;
+      setTimeout(function(){
+        if(co) co.classList.add('show');
+        setTimeout(function(){
+          if(path) path.classList.add('drawn');
+          if(dot) dot.classList.add('drawn');
+        }, reduce?0:260);
+      }, delay);
+    });
+  }
+
+  window.addEventListener('load', function(){ setTimeout(revealCallouts, 350); });
+  window.addEventListener('resize', function(){ drawArrows(); });
+
+  /* ---------- mobile menu ---------- */
+  var burger=document.getElementById('burger');
+  var mobileMenu=document.getElementById('mobileMenu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open=mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open?'true':'false');
+    });
+    Array.prototype.slice.call(mobileMenu.querySelectorAll('a')).forEach(function(a){
+      a.addEventListener('click', function(){
+        mobileMenu.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded','false');
+      });
+    });
+  }
+
+  /* ---------- FAQ accordion ---------- */
+  Array.prototype.slice.call(document.querySelectorAll('.faq-item')).forEach(function(item){
+    var q=item.querySelector('.faq-q');
+    var a=item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      var isOpen=item.classList.contains('open');
+      // close others
+      Array.prototype.slice.call(document.querySelectorAll('.faq-item.open')).forEach(function(o){
+        if(o!==item){ o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight=null; }
+      });
+      if(isOpen){ item.classList.remove('open'); a.style.maxHeight=null; }
+      else { item.classList.add('open'); a.style.maxHeight=a.scrollHeight+'px'; }
+    });
+  });
+
+  /* ---------- contact form channel picker ---------- */
+  var channelPick=document.getElementById('channelPick');
+  var fContact=document.getElementById('fContact');
+  var placeholders={'Telegram':'@username в Telegram','Телефон':'+7 ___ ___ __ __','Почта':'you@company.ru'};
+  if(channelPick){
+    channelPick.addEventListener('click', function(e){
+      var b=e.target.closest('button[data-ch]');
+      if(!b) return;
+      Array.prototype.slice.call(channelPick.children).forEach(function(c){c.classList.remove('active');});
+      b.classList.add('active');
+      if(fContact) fContact.placeholder=placeholders[b.getAttribute('data-ch')]||'';
+    });
+  }
+
+  /* ---------- contact form submit (mock) ---------- */
+  var form=document.getElementById('leadForm');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var sent=document.getElementById('formSent');
+      if(sent){ sent.classList.add('show'); sent.scrollIntoView({behavior:'smooth',block:'center'}); }
+    });
+  }
+
+  /* ---------- channel CTA prefills task ---------- */
+  Array.prototype.slice.call(document.querySelectorAll('[data-channel]')).forEach(function(el){
+    el.addEventListener('click', function(){
+      var ch=el.getAttribute('data-channel');
+      var t=document.getElementById('fTask');
+      if(t && !t.value){ t.value='Интересует: '+ch+'. '; setTimeout(function(){ t.focus(); }, 600); }
+    });
+  });
+
+  /* ---------- lead-magnet modal ---------- */
+  var backdrop=document.getElementById('lmBackdrop');
+  var openBtn=document.getElementById('openLM');
+  var closeBtn=document.getElementById('lmClose');
+  var runBtn=document.getElementById('lmRun');
+  var input=document.getElementById('lmInput');
+  var verdict=document.getElementById('verdict');
+
+  function openLM(){ backdrop.classList.add('open'); setTimeout(function(){input.focus();},120); }
+  function closeLM(){ backdrop.classList.remove('open'); }
+  if(openBtn) openBtn.addEventListener('click', openLM);
+  if(closeBtn) closeBtn.addEventListener('click', closeLM);
+  backdrop.addEventListener('click', function(e){ if(e.target===backdrop) closeLM(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLM(); });
+
+  var FIXES = [
+    'Первая строка не цепляет: уберите вводное и начните с боли или интриги читателя.',
+    'Слишком про себя: переведите выгоду в историю одного клиента — читатель верит человеку, а не агентству.',
+    'Нет конкретики: добавьте цифру или факт в первое предложение — числа резко поднимают дочитываемость.',
+    'Длинный заход: сократите первый абзац вдвое — на ПромоСтранице решает скорость до сути.',
+    'Пассивный финал: добавьте микро-призыв в конце абзаца, чтобы читатель сам захотел шаг дальше.',
+    'Канцелярит («осуществляем», «является»): замените на живой глагол — текст должен звучать как речь.'
+  ];
+
+  function analyze(txt){
+    var len=txt.length;
+    var hasNum=/\d/.test(txt);
+    var firstPerson=/\b(я|мы|меня|нас|мне)\b/i.test(txt);
+    var pts = 50;
+    if(hasNum) pts+=14;
+    if(firstPerson) pts+=8;
+    if(len>120 && len<520) pts+=12;
+    if(/[?!«»]/.test(txt)) pts+=6;
+    pts = Math.max(38, Math.min(86, pts));
+    var score, label;
+    if(pts>=72){ score='Продаёт, но не на максимум'; label='Текст рабочий — есть 3 точки роста, которые поднимут дочитываемость.'; }
+    else if(pts>=55){ score='Пока греет слабо'; label='Читатель начнёт, но рискует уйти на середине. Вот что вытащит текст.'; }
+    else { score='Сейчас не продаёт'; label='Текст не ведёт читателя к действию. Три правки переломят это.'; }
+    var picks=[];
+    if(!hasNum) picks.push(FIXES[2]);
+    if(!firstPerson) picks.push(FIXES[1]);
+    if(len>520) picks.push(FIXES[3]);
+    while(picks.length<3){
+      var f=FIXES[(picks.length+(hasNum?1:0)+len)%FIXES.length];
+      if(picks.indexOf(f)===-1) picks.push(f); else picks.push(FIXES[(picks.length*2)%FIXES.length]);
+    }
+    picks=picks.slice(0,3);
+    return {score:'≈'+pts+' из 100 · '+score, label:label, picks:picks};
+  }
+
+  if(runBtn){
+    runBtn.addEventListener('click', function(){
+      var txt=(input.value||'').trim();
+      if(txt.length < 25){
+        show('Маловато данных','Вставьте хотя бы пару предложений — тогда разбор будет точным.',[FIXES[0],FIXES[2],FIXES[3]]);
+        return;
+      }
+      var r=analyze(txt);
+      show(r.score, r.label, r.picks);
+    });
+  }
+
+  function show(score,label,fixes){
+    document.getElementById('vScore').textContent=score;
+    document.getElementById('vLabel').textContent=label;
+    var ol=document.getElementById('vList');
+    ol.innerHTML='';
+    fixes.forEach(function(f){
+      var li=document.createElement('li');
+      li.textContent=f;
+      ol.appendChild(li);
+    });
+    verdict.classList.add('show');
+  }
+
+  /* ---------- inline lead-magnet (final screen) — opens modal prefilled ---------- */
+  var lmInline=document.getElementById('lmInline');
+  var lmInlineRun=document.getElementById('lmInlineRun');
+  if(lmInlineRun){
+    lmInlineRun.addEventListener('click', function(){
+      var txt=(lmInline.value||'').trim();
+      input.value=txt;
+      openLM();
+      if(txt.length>=25){ var r=analyze(txt); show(r.score,r.label,r.picks); }
+      else if(txt.length>0){ show('Маловато данных','Вставьте хотя бы пару предложений — тогда разбор будет точным.',[FIXES[0],FIXES[2],FIXES[3]]); }
+    });
+  }
+
+  /* ---------- primary CTA hooks: smooth scroll to contact ---------- */
+  Array.prototype.slice.call(document.querySelectorAll('a[data-cta]')).forEach(function(b){
+    b.addEventListener('click', function(e){
+      var href=b.getAttribute('href');
+      if(href==='#contact'){
+        e.preventDefault();
+        var c=document.getElementById('contact');
+        if(c) c.scrollIntoView({behavior:'smooth',block:'start'});
+        var n=document.getElementById('fName'); if(n) setTimeout(function(){n.focus();},650);
+      }
+    });
+  });
+  // header button without href / # buttons that should open contact
+  Array.prototype.slice.call(document.querySelectorAll('button[data-cta]')).forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.preventDefault();
+      var c=document.getElementById('contact');
+      if(c) c.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+})();
+</script>
+</body>
+</html>
